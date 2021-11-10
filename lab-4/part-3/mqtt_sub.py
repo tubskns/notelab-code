@@ -13,11 +13,7 @@ def on_connect(client, userdata, flags, rc):
 
 # callback for when a PUBLISH message is received from the server.
 def on_message(client, userdata, msg):
-    print(msg.topic + " " + str(msg.payload))
-
-
-def on_publish(mqttc, obj, mid):
-    print("mid: " + str(mid))
+    print(msg.topic + " " + str(msg.payload.decode("utf-8")))
 
 
 def on_subscribe(mqttc, obj, mid, granted_qos):
@@ -31,7 +27,6 @@ def on_log(mqttc, obj, level, string):
 mqttc = mqtt.Client()
 mqttc.on_connect = on_connect
 mqttc.on_message = on_message
-mqttc.on_publish = on_publish
 mqttc.on_subscribe = on_subscribe
 # Uncomment to enable debug messages
 # mqttc.on_log = on_log
