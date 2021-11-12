@@ -1,3 +1,5 @@
+#include <Arduino.h>
+
 const int pirSensor = 13; // PIR's pin is connected to NodeMCU's GPIO 13 (D7) or WeMos GPIO 13 (D7)
 
 void initialize_sensor()

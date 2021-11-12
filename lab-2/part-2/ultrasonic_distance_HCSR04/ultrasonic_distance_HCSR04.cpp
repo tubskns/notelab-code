@@ -1,4 +1,5 @@
 #include "ultrasonic_distance_HCSR04.h"
+#include <Arduino.h>
 
 const int trigPin = 5; // HC-SR04's trigger pin is connected to NodeMCU's GPIO 5 (D1)
 const int echoPin = 4; // HC-SR04's echo pin is connected to NodeMCU's GPIO 4 (D2)
