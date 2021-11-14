@@ -53,6 +53,9 @@ void publish_message(char* topic, char* msg)
 
 void check_connection()
 {
+    if (!mqtt_client.connected()) {
+        connect_to_broker();
+    }
     mqtt_client.loop();
 }
 
