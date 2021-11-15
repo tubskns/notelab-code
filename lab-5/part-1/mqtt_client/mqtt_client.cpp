@@ -4,6 +4,7 @@
 
 WiFiClient wifi_client;
 PubSubClient mqtt_client(wifi_client);
+String buffer;
 
 void connect_to_broker()
 {
@@ -30,15 +31,13 @@ void callback(char* topic, byte* payload, unsigned int length) {
     Serial.print("Message arrived [");
     Serial.print(topic);
     Serial.print("]: ");
-    for(int i = 0; i < length; i++) {
-        Serial.print((char)payload[i]);
-    }
-    Serial.println();
+    buffer = String((char*)payload);
+    Serial.println(buffer);
 }
 
 void initialize_client(const char* mqtt_broker_ip, const int mqtt_broker_port)
 {
-    mqtt_client.setServer(mqtt_broker_ip, mqtt_broker_port); // instance of MQTT client, specify the address and the port of the MQTT broker
+    mqtt_client.setServer(mqtt_broker_ip, mqtt_broker_port); // instance of MQTT client, specify the address and the port of the MQTT broker.
 }
 
 void subscribe_to_topic(char* topic){
@@ -57,5 +56,9 @@ void check_connection()
         connect_to_broker();
     }
     mqtt_client.loop();
+}
+
+String get_buffer(){
+    return buffer;
 }
 
