@@ -8,8 +8,8 @@ String pass_wifi = "password1"; // student's network password
 
 const char *mqtt_broker_ip = "192.168.1.3"; // broker IP address
 const int mqtt_broker_port = 1883;          // MQTT port (default :1883)
-char *mqtt_topic = "topic_test";
-char *message = "message_test";
+char* mqtt_topic = "topic_test";
+char* message = "message_test";
 
 void setup()
 {
@@ -33,13 +33,16 @@ void loop()
   DynamicJsonDocument doc(1024);
 
   doc["id"] = "microcontroller1";
-  doc["temperature"] = temperarue;
+  doc["temperature"] = temperature;
   doc["humidity"] = humidity;
 
   String json_doc;
   serializeJson(doc, json_doc);
 
-  mqttClient.publish(mqtt_topic, json_doc);
+  char buf[50];
+  json_doc.toCharArray(buf, 50);
+  publish_message(mqtt_topic, buf);
+  Serial.println("Data sent to MQTT broker");
 
-  delay(5000)
+  delay(5000);
 }
