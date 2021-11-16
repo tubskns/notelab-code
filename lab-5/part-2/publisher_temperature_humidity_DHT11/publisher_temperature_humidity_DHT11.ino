@@ -9,7 +9,7 @@ String pass_wifi = "password1"; // student's network password
 const char* mqtt_broker_ip = "192.168.1.3"; // broker IP address
 const int mqtt_broker_port = 1883;          // MQTT port (default :1883)
 const char* client_id = "publisher_DHT11";
-char* mqtt_topic = "topic_test";
+char* mqtt_topic = "notelab/temperature&humidity";
 
 void setup()
 {
@@ -34,7 +34,8 @@ void loop()
   doc["id"] = "microcontroller1";
   doc["temperature"] = temperature;
   doc["humidity"] = humidity;
-  serializeJsonPretty(doc, Serial);
+  // Generate the prettified JSON and send it to the Serial port
+  // serializeJsonPretty(doc, Serial);
 
   String json_doc;
   serializeJson(doc, json_doc);

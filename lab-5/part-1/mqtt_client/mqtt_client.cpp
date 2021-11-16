@@ -34,7 +34,7 @@ void subscribe_to_topic(char* topic){
 
 void publish_message(char* topic, char* msg)
 {
-    Serial.print("Publishing menssage [");
+    Serial.print("Publishing message [");
     Serial.print(topic);
     Serial.print("]: ");
     Serial.println(msg);
@@ -55,4 +55,3 @@ void check_connection(const char* client_id)
 String get_buffer(){
     return buffer;
 }
-
