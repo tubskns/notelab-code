@@ -6,9 +6,10 @@ String pass_wifi = "password1"; //student's network password
 
 const char* mqtt_broker_ip = "192.168.1.3"; // broker IP address
 const int mqtt_broker_port = 1883;          // MQTT port (default :1883)
+const char* client_id = "client_id"
 char* mqtt_topic = "topic_test";
 char* message = "message_test";
-String client_id = "client_id"
+
 
 void setup()
 {

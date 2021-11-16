@@ -1,6 +1,6 @@
 #include <Arduino.h>
 
-void initialize_client(const char* mqtt_broker_ip, const int mqtt_broker_port, String id);
+void initialize_client(const char* mqtt_broker_ip, const int mqtt_broker_port, const char* id);
 
 void subscribe_to_topic(char* topic);
 

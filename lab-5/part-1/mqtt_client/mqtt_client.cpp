@@ -4,7 +4,7 @@
 
 WiFiClient wifi_client;
 MQTTClient mqtt_client;
-String client_id;
+const char* client_id;
 String buffer;
 
 void connect() {
@@ -21,7 +21,7 @@ void callback(String &topic, String &payload) {
   buffer = payload;
 }
 
-void initialize_client(const char* mqtt_broker_ip, const int mqtt_broker_port, String id)
+void initialize_client(const char* mqtt_broker_ip, const int mqtt_broker_port, const char* id)
 {
     mqtt_client.begin(mqtt_broker_ip, wifi_client);
     client_id = id;
