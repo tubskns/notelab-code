@@ -15,7 +15,6 @@ void setup()
   Serial.begin(115200); // establish serial communication at baud rate 115200
   connect_to_wifi(ssid_wifi, pass_wifi);
   initialize_client(mqtt_broker_ip, mqtt_broker_port);
-  connect_to_broker();
   initialize_sensor();
 }
 
@@ -41,7 +40,6 @@ void loop()
   char buf[50];
   json_doc.toCharArray(buf, 50);
   publish_message(mqtt_topic, buf);
-  Serial.println("Data sent to MQTT broker");
 
   delay(5000);
 }

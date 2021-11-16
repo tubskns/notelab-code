@@ -1,61 +1,56 @@
 #include "mqtt_client.h"
-#include <PubSubClient.h> // MQTT client library
+#include <MQTT.h> // MQTT client library
 #include <ESP8266WiFi.h>
 
 WiFiClient wifi_client;
-PubSubClient mqtt_client(wifi_client);
+MQTTClient mqtt_client;
 String buffer;
 
-void connect_to_broker()
-{
-    // check when request is accepted by the broker
-    while (!mqtt_client.connected())
-    {
-        Serial.print("Connecting to MQTT broker...");
-        if (mqtt_client.connect("ESP8266 Client"))
-        {
-            Serial.println(" connection established!");
-        }
-        else
-        {
-            Serial.print("Connection failed! [rc=");
-            Serial.print(mqtt_client.state());
-            Serial.println("], retrying....");
-            delay(5000); // wait before retrying
-        }
-    }
+void connect() {
+  Serial.print("\nConnecting to MQTT broker... ");
+  while (!mqtt_client.connect("ESP8266 Client", "public", "public")) {
+    Serial.print(".");
+    delay(1000);
+  }
+  Serial.print("connected!");
 }
 
-// client receives message from broker
-void callback(char* topic, byte* payload, unsigned int length) {
-    Serial.print("Message arrived [");
-    Serial.print(topic);
-    Serial.print("]: ");
-    buffer = String((char*)payload);
-    Serial.println(buffer);
+void callback(String &topic, String &payload) {
+  Serial.println("Message arrived [" + topic + "]: " + payload);
+  buffer = payload;
 }
 
 void initialize_client(const char* mqtt_broker_ip, const int mqtt_broker_port)
 {
-    mqtt_client.setServer(mqtt_broker_ip, mqtt_broker_port); // instance of MQTT client, specify the address and the port of the MQTT broker.
+    mqtt_client.begin(mqtt_broker_ip, wifi_client);
+    connect();
 }
 
 void subscribe_to_topic(char* topic){
-    mqtt_client.setCallback(callback); //handle incoming MQTT messages
+    Serial.print("Subscribing to topic: ");
+    Serial.println(topic);
+    mqtt_client.onMessage(callback); //handle incoming MQTT messages
     mqtt_client.subscribe(topic); // subscribe to the topic
 }
 
 void publish_message(char* topic, char* msg)
 {
+    Serial.print("Publishing menssage [");
+    Serial.print(topic);
+    Serial.print("]: ");
+    Serial.println(msg);
     mqtt_client.publish(topic, msg); // publish to the topic
 }
 
 void check_connection()
 {
-    if (!mqtt_client.connected()) {
-        connect_to_broker();
-    }
-    mqtt_client.loop();
+  mqtt_client.loop();
+  delay(10);
+
+  // check if connected
+  if (!mqtt_client.connected()) {
+    connect();
+  }
 }
 
 String get_buffer(){
