@@ -1,3 +1,8 @@
+import os
+import sys
+script_dir = os.path.dirname(__file__)
+mymodule_dir = os.path.join(script_dir, "../lab-4/part-2/")
+sys.path.append(mymodule_dir)
 import mqtt_sub
 import amqp_client
 
