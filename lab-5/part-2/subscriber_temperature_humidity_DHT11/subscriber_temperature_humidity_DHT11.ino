@@ -10,8 +10,8 @@ String pass_wifi = "password1"; // student's network password
 
 const char* mqtt_broker_ip = "192.168.1.3"; // broker IP address
 const int mqtt_broker_port = 1883;          // MQTT port (default :1883)
-const char* client_id = "subscriber_DHT11"
-char* mqtt_topic = "topic_test";
+const char* client_id = "subscriber_DHT11";
+char* mqtt_topic = "notelab/temperature&humidity";
 
 
 float temperature = 0;
@@ -20,7 +20,7 @@ float blink_delay = 100;
 
 void setup()
 {
-  Serial.begin(9200); // establish serial communication at baud rate 115200
+  Serial.begin(115200); // establish serial communication at baud rate 115200
   connect_to_wifi(ssid_wifi, pass_wifi);
   initialize_client(mqtt_broker_ip, mqtt_broker_port);
   connect(client_id);
@@ -38,8 +38,8 @@ void loop()
   temperature = doc["temperature"];
   // humidity = doc["humidity"];
 
-  // Generate the prettified JSON and send it to the Serial port.
-  serializeJsonPretty(doc, Serial);
+ // Generate the prettified JSON and send it to the Serial port.
+ // serializeJsonPretty(doc, Serial);
 
   if (temperature >= 10.0)
   {
