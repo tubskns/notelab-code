@@ -6,7 +6,7 @@ import amqp_client
 #########################
 
 # parameters
-IP_RABBITMQ = "localhost"
+IP_RABBITMQ = "192.168.1.7"
 PORT_RABBITMQ = 5672
 USER_RABBITMQ = "user"
 PASS_RABBITMQ = "password"
@@ -25,9 +25,9 @@ channel = amqp_client.connect_to_rabbitmq(
 #####################
 
 # parameters
-IP_BROKER_MQTT = "broker.hivemq.com"
+IP_BROKER_MQTT = "192.168.1.3"
 PORT_BROKER_MQTT = 1883
-TOPIC_MQTT = "lab4"
+TOPIC_MQTT = "notelab/temperature&humidity"
 
 # redefines on_message callback function
 # client receives message from mqtt broker and resends to rabbitmq
