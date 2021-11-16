@@ -4,11 +4,12 @@
 
 WiFiClient wifi_client;
 MQTTClient mqtt_client;
+String client_id;
 String buffer;
 
 void connect() {
   Serial.print("\nConnecting to MQTT broker... ");
-  while (!mqtt_client.connect("ESP8266 Client", "public", "public")) {
+  while (!mqtt_client.connect(client_id, "public", "public")) {
     Serial.print(".");
     delay(1000);
   }
@@ -20,9 +21,10 @@ void callback(String &topic, String &payload) {
   buffer = payload;
 }
 
-void initialize_client(const char* mqtt_broker_ip, const int mqtt_broker_port)
+void initialize_client(const char* mqtt_broker_ip, const int mqtt_broker_port, String id)
 {
     mqtt_client.begin(mqtt_broker_ip, wifi_client);
+    client_id = id;
     connect();
 }
 
