@@ -16,11 +16,12 @@ void setup()
     Serial.begin(115200); // establish serial communication at baud rate 115200
     connect_to_wifi(ssid_wifi, pass_wifi);
     initialize_client(mqtt_broker_ip, mqtt_broker_port, client_id);
+    connect(client_id);
     subscribe_to_topic(mqtt_topic);
     publish_message(mqtt_topic, message);
 }
 
 void loop()
 {
-    check_connection();
+    check_connection(client_id);
 }

@@ -15,13 +15,13 @@ void setup()
 {
   Serial.begin(115200); // establish serial communication at baud rate 115200
   connect_to_wifi(ssid_wifi, pass_wifi);
-  initialize_client(mqtt_broker_ip, mqtt_broker_port, client_id);
+  initialize_client(mqtt_broker_ip, mqtt_broker_port);
   initialize_sensor();
 }
 
 void loop()
 {
-  check_connection();
+  check_connection(client_id);
   float humidity = get_humidity();
   String humidity_str = String(humidity); // convert float to string
   Serial.print("Humidity: " + humidity_str + " %\n");

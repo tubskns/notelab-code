@@ -4,10 +4,9 @@
 
 WiFiClient wifi_client;
 MQTTClient mqtt_client;
-const char* client_id;
 String buffer;
 
-void connect() {
+void connect(const char* client_id) {
   Serial.print("\nConnecting to MQTT broker... ");
   while (!mqtt_client.connect(client_id, "public", "public")) {
     Serial.print(".");
@@ -21,11 +20,9 @@ void callback(String &topic, String &payload) {
   buffer = payload;
 }
 
-void initialize_client(const char* mqtt_broker_ip, const int mqtt_broker_port, const char* id)
+void initialize_client(const char* mqtt_broker_ip, const int mqtt_broker_port)
 {
     mqtt_client.begin(mqtt_broker_ip, wifi_client);
-    client_id = id;
-    connect();
 }
 
 void subscribe_to_topic(char* topic){
@@ -44,14 +41,14 @@ void publish_message(char* topic, char* msg)
     mqtt_client.publish(topic, msg); // publish to the topic
 }
 
-void check_connection()
+void check_connection(const char* client_id)
 {
   mqtt_client.loop();
   delay(10);
 
   // check if connected
   if (!mqtt_client.connected()) {
-    connect();
+    connect(client_id);
   }
 }
 

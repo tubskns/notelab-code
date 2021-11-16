@@ -22,14 +22,15 @@ void setup()
 {
   Serial.begin(9200); // establish serial communication at baud rate 115200
   connect_to_wifi(ssid_wifi, pass_wifi);
-  initialize_client(mqtt_broker_ip, mqtt_broker_port, client_id);
+  initialize_client(mqtt_broker_ip, mqtt_broker_port);
+  connect(client_id);
   subscribe_to_topic(mqtt_topic);
   pinMode(LED, OUTPUT); // initialize LED as an output
 }
 
 void loop()
 {
-  check_connection();
+  check_connection(client_id);
   String buffer = get_buffer();
   DynamicJsonDocument doc(1024);
   deserializeJson(doc, buffer);
