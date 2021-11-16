@@ -11,7 +11,6 @@ String pass_wifi = "password1"; // student's network password
 const char* mqtt_broker_ip = "192.168.1.3"; // broker IP address
 const int mqtt_broker_port = 1883;          // MQTT port (default :1883)
 char* mqtt_topic = "topic_test";
-char* message = "message_test";
 
 float temperature = 0;
 float humidity = 0;
@@ -34,7 +33,7 @@ void loop()
   check_connection();
   String buffer = get_buffer();
   DynamicJsonDocument doc(1024);
-  deserializeJson(doc, message);
+  deserializeJson(doc, buffer);
 
   temperature = doc["temperature"];
   // humidity = doc["humidity"];
@@ -49,12 +48,13 @@ void loop()
   else if (temperature >= 20.0)
   {
     blink_delay = 500;
-  } else 
+  }
+  else
   {
     blink_delay = 100;
   }
-  digitalWrite(LED, HIGH);   // turn the LED on (HIGH is the voltage level)
-  delay(blink_delay);                       // wait
-  digitalWrite(LED, LOW);    // turn the LED off by making the voltage LOW
-  delay(blink_delay);                       // wait 
+  digitalWrite(LED, HIGH); // turn the LED on (HIGH is the voltage level)
+  delay(blink_delay);      // wait
+  digitalWrite(LED, LOW);  // turn the LED off by making the voltage LOW
+  delay(blink_delay);      // wait
 }
