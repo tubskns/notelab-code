@@ -15,10 +15,10 @@ def connect_to_rabbitmq(ip, port, user, passw, queue):
 
 
 if __name__ == "__main__":
-    # parameters
-    ip = "localhost"
-    port = 5672
-    user = "user"
+    #  server parameters - RabbitMq
+    ip = "192.168.1.7" #server IP address
+    port = 5672   #
+    user = "user"  
     passw = "password"
     queue = "notelab"
 

@@ -3,7 +3,7 @@ import paho.mqtt.client as mqtt  # Paho MQTT client
 
 # callback for when the client receives a CONNACK response from the server.
 def on_connect(client, userdata, flags, rc):
-    print("Connected with result code " + str(rc))
+    print("Connected to MQTT broker with result code " + str(rc))
 
 
 # callback for when a PUBLISH message is received from the server.
