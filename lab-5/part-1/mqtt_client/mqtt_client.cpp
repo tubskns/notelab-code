@@ -26,7 +26,7 @@ void initialize_client(const char* mqtt_broker_ip, const int mqtt_broker_port)
 }
 
 void subscribe_to_topic(char* topic){
-    Serial.print("Subscribing to topic: ");
+    Serial.print("\nSubscribing to topic: ");
     Serial.println(topic);
     mqtt_client.onMessage(callback); //handle incoming MQTT messages
     mqtt_client.subscribe(topic); // subscribe to the topic
