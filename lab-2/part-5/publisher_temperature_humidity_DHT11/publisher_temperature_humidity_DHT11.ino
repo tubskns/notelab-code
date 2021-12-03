@@ -31,7 +31,7 @@ void loop()
 
   DynamicJsonDocument doc(1024);
 
-  doc["id"] = "microcontroller1";
+  doc["id"] = "publisher_DHT11";
   doc["temperature"] = temperature;
   doc["humidity"] = humidity;
   // Generate the prettified JSON and send it to the Serial port
