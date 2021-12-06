@@ -22,7 +22,7 @@ if __name__ == "__main__":
     exchange = "amq.topic"
     routing_key = "logstash"
 
-    message = "test_messasge"
+    message = "test_amqp_message"
 
     channel = connect_to_rabbitmq(ip, port, user, passw, queue)
     send_message_to_rabbitmq(channel, exchange, routing_key, message)
