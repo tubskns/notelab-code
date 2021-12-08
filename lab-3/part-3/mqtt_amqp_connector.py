@@ -1,7 +1,9 @@
 import os
 import sys
 script_dir = os.path.dirname(__file__)
-mymodule_dir = os.path.join(script_dir, "../lab-4/part-2/")
+mymodule_dir = os.path.join(script_dir, "../part-2/")
+sys.path.append(mymodule_dir)
+mymodule_dir = os.path.join(script_dir, "../../lab-2/part-3/")
 sys.path.append(mymodule_dir)
 import mqtt_sub
 import amqp_client
@@ -32,7 +34,7 @@ channel = amqp_client.connect_to_rabbitmq(
 # parameters
 IP_BROKER_MQTT = "192.168.1.3"
 PORT_BROKER_MQTT = 1883
-TOPIC_MQTT = "notelab/temperature&humidity"
+TOPIC_MQTT = "notelab/test_MQTT-AMQP_connector"
 
 # redefines on_message callback function
 # client receives message from mqtt broker and resends to rabbitmq
