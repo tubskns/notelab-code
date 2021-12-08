@@ -13,8 +13,8 @@ const char* topic="notelab/hcsr04/distance";
 PubSubClient mqttClient(espClient1); // create an instance of MQTT client
 
 //Sensor parameters
-const int trigPin = 5; // HC-SR04's trigger pin is connected to NodeMCU's GPIO 5 (D1)
-const int echoPin = 4; // HC-SR04's echo pin is connected to NodeMCU's GPIO 4 (D2)
+const int trigPin = 4; // HC-SR04's trigger pin is connected to Wemos's GPIO 5 (D1)
+const int echoPin = 14; // HC-SR04's echo pin is connected to wemos's GPIO 4 (D2)
 long duration; // storing time elapsed for sending and receiving pulse wave 
 int dist; //storing distance to an object
 unsigned long previousSend = 0; // storing last time HCSR04 was updated

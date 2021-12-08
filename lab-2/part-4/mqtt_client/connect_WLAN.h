@@ -1,1 +1,1 @@
-../../../lab-3/part-1/connect_WLAN/connect_WLAN.h
+../../../lab-2/part-1/connect_WLAN/connect_WLAN.h

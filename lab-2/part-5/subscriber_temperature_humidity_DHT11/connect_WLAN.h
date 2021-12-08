@@ -1,3 +1,1 @@
-#include <Arduino.h>
-
-void connect_to_wifi(String ssid, String pass);
+../../../lab-2/part-1/connect_WLAN/connect_WLAN.h
