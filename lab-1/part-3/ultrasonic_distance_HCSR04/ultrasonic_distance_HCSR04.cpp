@@ -1,11 +1,11 @@
 #include "ultrasonic_distance_HCSR04.h"
 #include <Arduino.h>
 
-const int trigPin = 5; // HC-SR04's trigger pin is connected to NodeMCU's GPIO 5 (D1)
-const int echoPin = 4; // HC-SR04's echo pin is connected to NodeMCU's GPIO 4 (D2)
+//const int trigPin = 5; // HC-SR04's trigger pin is connected to NodeMCU's GPIO 5 (D1)
+//const int echoPin = 4; // HC-SR04's echo pin is connected to NodeMCU's GPIO 4 (D2)
 
-// const int trigPin = D4; // HC-SR04's trigger pin is connected to WeMos GPIO 4 (D4)
-// const int echoPin = D5; // HC-SR04's echo pin is connected to WeMos GPIO 14 (D5)
+const int trigPin = 4; // HC-SR04's trigger pin is connected to WeMos GPIO 4 (D4)
+const int echoPin = 14; // HC-SR04's echo pin is connected to WeMos GPIO 14 (D5)
 
 void initialize_sensor()
 {
