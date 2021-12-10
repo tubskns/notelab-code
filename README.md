@@ -75,7 +75,8 @@ Structure:
 │   ├── amqp_pub.py
 │   ├── http_client.py
 │   ├── mqtt_amqp_connector.py
-│   └── mqtt_sub.py
+│   ├── mqtt_sub.py
+│   └── sensor_data.py
 └── server
     ├── deploy_helper.sh
     ├── notelab.yml
