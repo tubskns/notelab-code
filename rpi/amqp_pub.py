@@ -1,8 +1,14 @@
 import pika
 
 
-def send_message_to_rabbitmq(channel, exchange, routing_key, msg):
+def send_message_to_rabbitmq(
+    channel,
+    msg,
+    exchange="amq.topic",
+    routing_key="logstash",
+):
     channel.basic_publish(exchange=exchange, routing_key=routing_key, body=msg)
+    print("RabbitMQ publisher - Message sent: " + msg)
 
 
 def connect_to_rabbitmq(ip, port, user, passw, queue):
@@ -28,5 +34,5 @@ if __name__ == "__main__":
     message = "test_amqp_message"
 
     channel = connect_to_rabbitmq(ip, port, user, passw, queue)
-    send_message_to_rabbitmq(channel, exchange, routing_key, message)
+    send_message_to_rabbitmq(channel, message, exchange, routing_key)
     print("Message sent to RabbitMQ server: " + message)

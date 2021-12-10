@@ -3,16 +3,18 @@ import paho.mqtt.client as mqtt  # Paho MQTT client
 
 # callback for when the client receives a CONNACK response from the server.
 def on_connect(client, userdata, flags, rc):
-    print("Connected to MQTT broker with result code " + str(rc))
+    print("MQTT - connected to broker with result code " + str(rc))
 
 
 # callback for when a PUBLISH message is received from the server.
 def on_message(client, userdata, msg):
-    print("Message received [" + msg.topic + "]: " + str(msg.payload.decode("utf-8")))
+    global message
+    message = str(msg.payload.decode("utf-8"))
+    print("MQTT subscriber - message received [" + msg.topic + "]: " + message)
 
 
 def on_subscribe(mqttc, obj, mid, granted_qos):
-    print("Subscribed: " + str(mid) + " " + str(granted_qos))
+    print("MQTT - subscribed: " + str(mid) + " " + str(granted_qos))
 
 
 def on_log(mqttc, obj, level, string):
@@ -31,7 +33,7 @@ def connect_to_mqtt_broker(ip, port):
 
 if __name__ == "__main__":
     # parameters
-    mqtt_broker_ip = "192.168.1.3"
+    mqtt_broker_ip = "localhost"
     mqtt_broker_port = 1883
     mqtt_topic = "testMQTT"
 
