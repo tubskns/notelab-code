@@ -1,0 +1,24 @@
+logstashConfig:
+ logstash.yml: |
+   xpack.monitoring.enabled: false
+   http.host: 0.0.0.0
+
+logstashPipeline:
+ logstash.conf: |
+  input {
+    rabbitmq {
+      host => "rabbitmq"
+      user => "user"
+      password => "password"
+      exchange => "amq.topic"
+      durable => true
+      queue => "notelab"
+    }
+  }
+  output {
+    elasticsearch {
+      hosts => "elasticsearch-master"
+      data_stream => "false"
+      index => "notelab"
+    }
+  }

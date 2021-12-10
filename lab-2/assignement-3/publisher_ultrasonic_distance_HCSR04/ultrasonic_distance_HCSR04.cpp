@@ -1,1 +1,0 @@
-../../../lab-1/part-3/ultrasonic_distance_HCSR04/ultrasonic_distance_HCSR04.cpp

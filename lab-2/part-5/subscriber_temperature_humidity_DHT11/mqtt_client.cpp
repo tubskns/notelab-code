@@ -1,1 +1,0 @@
-../../../lab-2/part-4/mqtt_client/mqtt_client.cpp

@@ -1,1 +1,0 @@
-../../../lab-1/part-2/temperature_humidity_DHT11/temperature_humidity_DHT11.cpp
