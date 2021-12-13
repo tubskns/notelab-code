@@ -15,8 +15,8 @@ def process_motion(data):
 
 
 # parameters
-ip_rabbitmq = "127.0.0.1"
-ip_broker_mqtt = "127.0.0.1"
+ip_rabbitmq = "192.168.1.7"
+ip_broker_mqtt = "192.168.1.3"
 temp_topic = "temperature_topic"
 dist_topic = "distance_topic"
 motion_topic = "motion_topic"
