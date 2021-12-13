@@ -2,16 +2,13 @@ import pika
 
 
 def send_message_to_rabbitmq(
-    channel,
-    msg,
-    exchange="amq.topic",
-    routing_key="logstash",
+    channel, msg, exchange="amq.topic", routing_key="logstash"
 ):
     channel.basic_publish(exchange=exchange, routing_key=routing_key, body=msg)
     print("RabbitMQ publisher - Message sent: " + msg)
 
 
-def connect_to_rabbitmq(ip, port, user, passw, queue):
+def connect_to_rabbitmq(ip, port=5672, user="user", passw="password", queue="notelab"):
     credentials = pika.PlainCredentials(user, passw)
     parameters = pika.ConnectionParameters(ip, port, "/", credentials)
     connection = pika.BlockingConnection(parameters)

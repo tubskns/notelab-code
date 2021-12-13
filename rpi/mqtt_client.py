@@ -9,22 +9,29 @@ def on_connect(client, userdata, flags, rc):
 # callback for when a PUBLISH message is received from the server.
 def on_message(client, userdata, msg):
     global message
-    message = str(msg.payload.decode("utf-8"))
-    print("MQTT subscriber - message received [" + msg.topic + "]: " + message)
+    message = msg
+    topic = msg.topic
+    payload = str(msg.payload.decode("utf-8"))
+    print("MQTT subscriber - message received [" + topic + "]: " + payload)
 
 
-def on_subscribe(mqttc, obj, mid, granted_qos):
-    print("MQTT - subscribed: " + str(mid) + " " + str(granted_qos))
+def on_subscribe(mqttc, obj, result, granted_qos):
+    print("MQTT - subscribed: " + str(result) + " " + str(granted_qos))
+
+
+def on_publish(client, userdata, result):
+    print("MQTT - published:  " + str(result))
 
 
 def on_log(mqttc, obj, level, string):
     print(string)
 
 
-def connect_to_mqtt_broker(ip, port):
+def connect(ip, port=1883):
     mqttc = mqtt.Client()
     mqttc.on_connect = on_connect
     mqttc.on_message = on_message
+    mqttc.on_publish = on_publish
     mqttc.on_subscribe = on_subscribe
     # mqttc.on_log = on_log # Uncomment to enable debug messages
     mqttc.connect(ip, port, 60)  # connect to the broker
@@ -37,7 +44,7 @@ if __name__ == "__main__":
     mqtt_broker_port = 1883
     mqtt_topic = "testMQTT"
 
-    mqttc = connect_to_mqtt_broker(mqtt_broker_ip, mqtt_broker_port)
+    mqttc = connect(mqtt_broker_ip, mqtt_broker_port)
     mqttc.subscribe(mqtt_topic)  # subscribe to the topic
 
     mqttc.loop_forever()
