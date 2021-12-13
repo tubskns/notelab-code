@@ -2,8 +2,8 @@ import mqtt_client
 import amqp_pub
 
 # parameters
-ip_rabbitmq = "127.0.0.1"
-ip_broker_mqtt = "127.0.0.1"
+ip_rabbitmq = "192.192.1.7"
+ip_broker_mqtt = "192.168.1.7"
 topics_mqtt = "default_topic"
 
 # connect to rabbitmq
