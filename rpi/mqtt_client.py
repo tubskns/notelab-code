@@ -40,7 +40,7 @@ def connect(ip, port=1883):
 
 if __name__ == "__main__":
     # parameters
-    mqtt_broker_ip = "192.168.1.3"
+    mqtt_broker_ip = "broker.hivemq.com"
     mqtt_broker_port = 1883
     mqtt_topic = "testMQTT"
 
