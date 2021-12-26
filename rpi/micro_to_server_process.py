@@ -2,31 +2,46 @@ import mqtt_client
 import amqp_pub
 import json
 
-lastValue = 0
 
-def process_temp(data):
+def process_temp(msg, previous_msg):
     print("Processing temperature...")
-    return data
+    temp = msg["temperature"]
+    if previous_msg is not None:
+        previous_temp = previous_msg["temperature"]
+        if temp != previous_temp:
+            print("temperature updated")
+        else:
+            msg = None
+            print("no temperature update")
+    return msg
 
 
-def process_dist(data):
+def process_dist(msg):
     print("Processing distance...")
-    distance = data["distance"]
+    distance = msg["distance"]
     if distance < 5:
-        data["priority"] = "high"
+        msg["priority"] = "high"
         print("added high priority")
     elif 5 <= distance <= 10:
-        data["priority"] = "medium"
+        msg["priority"] = "medium"
         print("added medium priority")
     elif distance > 10:
-        data = None
+        msg = None
         print("no priority added")
-    return data
+    return msg
 
 
-def process_motion(data):
+def process_motion(msg, previous_msg):
     print("Processing motion detection...")
-    return data
+    motion = msg["motion"]
+    if previous_msg is not None:
+        previous_motion = previous_msg["motion"]
+        if motion != previous_motion:
+            print("motion status updated")
+        else:
+            msg = None
+            print("no motion status updated")
+    return msg
 
 
 # parameters
@@ -48,6 +63,7 @@ amqp_channel = amqp_pub.connect_to_rabbitmq(ip_rabbitmq)
 mqtt_client.message = None
 mqttc = mqtt_client.connect(ip_broker_mqtt)
 mqttc.subscribe(topics_mqtt)
+last_payload = None
 
 # start mqtt loop
 mqttc.loop_start()
@@ -58,17 +74,18 @@ while True:
         payload = json.loads(str(mqtt_client.message.payload.decode("utf-8")))
         # process payload based on topic
         if topic == temp_topic:
-            payload = process_temp(payload)
+            payload = process_temp(payload, last_payload)
         elif topic == dist_topic:
             payload = process_dist(payload)
         elif topic == motion_topic:
-            payload = process_motion(payload)
+            payload = process_motion(payload, last_payload)
         # forward payload to amqp server
         if payload is not None:
-            payload = json.dumps(payload)
+            payload_str = json.dumps(payload)
             amqp_pub.send_message_to_rabbitmq(
                 amqp_channel,
-                payload,
+                payload_str,
             )
+            last_payload = payload
         # reset message
         mqtt_client.message = None
