@@ -6,7 +6,7 @@ def get_data(url):
     res = requests.get(url)
     print("HTTP - [" + url + "] response code: ", res.status_code)
     if res.status_code == 200:
-        res_json = json.loads(req.content.decode('utf8'))
+        res_json = json.loads(res.content.decode('utf8'))
         return res_json
     else:
         return None
