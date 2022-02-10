@@ -3,9 +3,9 @@ import json
 
 
 def get_data(url):
-    req = requests.get(url)
-    print("HTTP - [" + url + "] response code: ", req.status_code)
-    if req.status_code is 200:
+    res = requests.get(url)
+    print("HTTP - [" + url + "] response code: ", res.status_code)
+    if res.status_code == 200:
         res_json = json.loads(req.content.decode('utf8'))
         return res_json
     else:
@@ -14,6 +14,6 @@ def get_data(url):
 
 if __name__ == "__main__":
     # parameters
-    url = "http://192.168.1.7:9200/index/"
+    url = "http://192.168.1.7:9200/test_index/_search?pretty"
     data = get_data(url)
     print("Data retrived from ElasticSearch: " + json.dumps(data))
