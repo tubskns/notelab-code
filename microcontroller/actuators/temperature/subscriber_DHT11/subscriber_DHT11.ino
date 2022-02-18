@@ -2,8 +2,8 @@
 #include "wifi_connection.h"
 #include <ArduinoJson.h>
 
-#define LED D1 //external LED is connected to NodeMCU's pin GPIO5 (D1)
-// #define LED 13 //external LED is connected to WeMos's pin GPIO14
+//#define LED D1 //external LED is connected to NodeMCU's pin GPIO5 (D1)
+#define LED 13 //external LED is connected to WeMos's pin GPIO14
 
 String ssid_wifi = "netw1";     // student's network SSID
 String pass_wifi = "password1"; // student's network password
@@ -11,7 +11,7 @@ String pass_wifi = "password1"; // student's network password
 const char* mqtt_broker_ip = "192.168.1.3"; // broker IP address
 const int mqtt_broker_port = 1883;          // MQTT port (default :1883)
 const char* client_id = "subscriber_DHT11";
-char* mqtt_topic = "temperature_topic";
+char* mqtt_topic = "temperature_actuator_topic";
 
 
 float temperature = 0;
@@ -37,22 +37,23 @@ void loop()
 
   temperature = doc["temperature"];
   // humidity = doc["humidity"];
-
+  Serial.println(temperature);
  // Generate the prettified JSON and send it to the Serial port.
- // serializeJsonPretty(doc, Serial);
+ // serializeJsonPretty(doc, Serial);  
 
-  if (temperature >= 10.0)
+  if (temperature >= 10.0 && temperature < 20.0) 
   {
     blink_delay = 2000;
   }
-  else if (temperature >= 20.0)
+  else if (temperature >= 20.0 && temperature < 30.0 )
   {
     blink_delay = 500;
   }
   else
   {
-    blink_delay = 100;
+    blink_delay = 1000;
   }
+  Serial.println(blink_delay);
   digitalWrite(LED, HIGH); // turn the LED on (HIGH is the voltage level)
   delay(blink_delay);      // wait
   digitalWrite(LED, LOW);  // turn the LED off by making the voltage LOW
