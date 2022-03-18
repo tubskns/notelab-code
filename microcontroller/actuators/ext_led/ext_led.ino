@@ -1,5 +1,5 @@
 #define LED D1 //external LED is connected to NodeMCU's pin GPIO5 (D1)
-// #define LED 13 //external LED is connected to WeMos's pin GPIO14
+//#define LED D5 //external LED is connected to WeMos's pin GPIO14
 
 void setup()
 {

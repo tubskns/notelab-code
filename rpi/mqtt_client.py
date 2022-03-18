@@ -13,15 +13,15 @@ def on_message(client, userdata, msg):
     print("MQTT client - msg received [" + topic + "]: " + payload)
 
 
-def on_subscribe(mqttc, obj, result, granted_qos):
-    print("MQTT client - subscribed: " + str(result) + " " + str(granted_qos))
+def on_subscribe(client, userdata, mid, granted_qos):
+    print("MQTT client - subscribed: " + str(mid) + " " + str(granted_qos))
 
 
-def on_publish(client, userdata, result):
-    print("MQTT client - published:  " + str(result))
+def on_publish(client, userdata, mid):
+    print("MQTT client - published:  " + str(mid))
 
 
-def on_log(mqttc, obj, level, string):
+def on_log(client, userdata, level, string):
     print(string)
 
 
