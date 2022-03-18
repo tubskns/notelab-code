@@ -11,16 +11,14 @@ const int mqtt_broker_port = 1883;          // MQTT port (default :1883)
 const char* client_id = "publisher_DHT11";
 char* mqtt_topic = "temperature_topic";
 
-void setup()
-{
+void setup(){
   Serial.begin(115200); // establish serial communication at baud rate 115200
   connect_to_wifi(ssid_wifi, pass_wifi);
   initialize_client(mqtt_broker_ip, mqtt_broker_port);
   initialize_sensor();
 }
 
-void loop()
-{
+void loop(){
   check_connection(client_id);
   float humidity = get_humidity();
   String humidity_str = String(humidity); // convert float to string
@@ -39,10 +37,8 @@ void loop()
 
   String json_doc;
   serializeJson(doc, json_doc);
-
   char buf[500];
   json_doc.toCharArray(buf, 500);
   publish_message(mqtt_topic, buf);
-
   delay(5000);
 }

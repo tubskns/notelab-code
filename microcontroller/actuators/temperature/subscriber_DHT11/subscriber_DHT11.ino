@@ -2,24 +2,19 @@
 #include "wifi_connection.h"
 #include <ArduinoJson.h>
 
-//#define LED D1 //external LED is connected to NodeMCU's pin GPIO5 (D1)
-#define LED 13 //external LED is connected to WeMos's pin GPIO14
-
+//#define LED D1 //external LED connected to NodeMCU's pin GPIO5
+#define LED 13 //external LED connected to WeMos's pin GPIO14
 String ssid_wifi = "netw1";     // student's network SSID
 String pass_wifi = "password1"; // student's network password
-
 const char* mqtt_broker_ip = "192.168.1.3"; // broker IP address
-const int mqtt_broker_port = 1883;          // MQTT port (default :1883)
+const int mqtt_broker_port = 1883; // MQTT port 
 const char* client_id = "subscriber_DHT11";
 char* mqtt_topic = "temperature_actuator_topic";
-
-
 float temperature = 0;
 float humidity = 0;
 float blink_delay = 100;
 
-void setup()
-{
+void setup(){
   Serial.begin(115200); // establish serial communication at baud rate 115200
   connect_to_wifi(ssid_wifi, pass_wifi);
   initialize_client(mqtt_broker_ip, mqtt_broker_port);
@@ -28,29 +23,20 @@ void setup()
   pinMode(LED, OUTPUT); // initialize LED as an output
 }
 
-void loop()
-{
+void loop(){
   check_connection(client_id);
   String buffer = get_buffer();
   DynamicJsonDocument doc(1024);
   deserializeJson(doc, buffer);
-
   temperature = doc["temperature"];
-  // humidity = doc["humidity"];
   Serial.println(temperature);
- // Generate the prettified JSON and send it to the Serial port.
- // serializeJsonPretty(doc, Serial);  
-
-  if (temperature >= 10.0 && temperature < 20.0) 
-  {
+  if (temperature >= 10.0 && temperature < 20.0){
     blink_delay = 2000;
   }
-  else if (temperature >= 20.0 && temperature < 30.0 )
-  {
+  else if (temperature >= 20.0 && temperature < 30.0 ){
     blink_delay = 500;
   }
-  else
-  {
+  else{
     blink_delay = 1000;
   }
   Serial.println(blink_delay);
