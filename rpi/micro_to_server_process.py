@@ -1,5 +1,5 @@
 import mqtt_client
-import amqp_pub
+import rpi.amqp_client as amqp_client
 import json
 
 
@@ -57,7 +57,7 @@ topics_mqtt = [
 ]
 
 # connect to rabbitmq
-amqp_channel = amqp_pub.connect_to_rabbitmq(ip_rabbitmq)
+amqp_channel = amqp_client.connect_to_rabbitmq(ip_rabbitmq)
 
 # connect to mqtt broker and subscribe to topics
 mqtt_client.message = None
@@ -82,7 +82,7 @@ while True:
         # forward payload to amqp server
         if payload is not None:
             payload_str = json.dumps(payload)
-            amqp_pub.send_message_to_rabbitmq(
+            amqp_client.send_message_to_rabbitmq(
                 amqp_channel,
                 payload_str,
             )
