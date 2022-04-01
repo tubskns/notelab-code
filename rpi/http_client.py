@@ -1,9 +1,6 @@
-import requests
-import json
-import time
+import requests, json, time
 
-
-def perform_request(url, method, payload=None):
+def query(url, method, payload=None):
     try:
         res = requests.Response()
         if method == "GET":
@@ -26,28 +23,27 @@ def perform_request(url, method, payload=None):
         if res.content is not None:
             res_content = json.loads(res.content.decode("utf8"))
         print(
-            "HTTP client - " + method + " - [" + url + "] response code: ",
+            "HTTP client - " + method + " - [" + url + "] code: ",
             res.status_code,
-            ", content: " + json.dumps(res_content, indent=4, sort_keys=True),
+            ", content: " + json.dumps(res_content, indent=4),
         )
         return res_content
     except:
         print("HTTP client - " + method + " - Connection error!")
 
-
 if __name__ == "__main__":
-    root_url = "http://134.169.115.45:9200/"
+    root_url = "http://192.168.1.3:9200/"
     index_es = "testindex"
-    perform_request(
+    query(
         url=root_url + index_es + "/test_sensor/1",
         method="POST",
         payload={"tester": "worksation", "sensor_data": 23},
     )
-    perform_request(
+    query(
         url=root_url + index_es + "/test_sensor/1",
         method="PUT",
         payload={"tester": "worksation", "sensor_data": 15},
     )
     time.sleep(1)
-    perform_request(url=root_url + index_es + "/" + "_search", method="GET")
-    perform_request(url=root_url + index_es, method="DELETE")
+    query(url=root_url + index_es + "/" + "_search", method="GET")
+    query(url=root_url + index_es, method="DELETE")
