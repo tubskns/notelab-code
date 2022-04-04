@@ -1,13 +1,16 @@
 import mqtt_client
-import rpi.amqp_client as amqp_client
+import amqp_client
 
 # parameters
 ip_rabbitmq = "192.168.1.7"
 ip_broker_mqtt = "192.168.1.3"
-topics_mqtt = "default_topic"
+topics_mqtt = "distance_topic"
+exchange = "amq.topic"
+routing_key = "notelab"
+queue = "notelab"
 
 # connect to rabbitmq
-amqp_channel = amqp_client.connect_to_rabbitmq(ip_rabbitmq)
+amqp_channel = amqp_client.connect_to_broker(ip_rabbitmq, port=5672, user = "user", passw = "password")
 
 # connect to mqtt broker and subscribe to topics
 mqtt_client.message = None
@@ -22,9 +25,6 @@ while True:
         topic = mqtt_client.message
         payload = str(mqtt_client.message.payload.decode("utf-8"))
         # forward payload to amqp server
-        amqp_client.send_message_to_rabbitmq(
-            amqp_channel,
-            payload,
-        )
+        amqp_client.publish(amqp_channel, payload, exchange, routing_key, queue)
         # reset message
         mqtt_client.message = None
