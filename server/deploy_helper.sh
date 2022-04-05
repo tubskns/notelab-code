@@ -29,6 +29,35 @@ function log() {
     fi
 }
 
+usage='Usage:
+'$0' [OPTION]
+OPTIONS:
+-r \t deploys rabbitmq.
+-e \t deploys elasticsearch.
+-l \t deploys logstash.
+'
+rabbitmq=false
+elasticsearch=false
+logstash=false
+
+while getopts "rel" opt; do
+    case $opt in
+    r)
+        rabbitmq=true
+        ;;
+    e)
+        elasticsearch=true
+        ;;
+    l)
+        logstash=true
+        ;;
+    *)
+        echo -e "Invalid option $1 \n\n${usage}"
+        exit 0
+        ;;
+    esac
+done
+
 log "INFO" "checking tools..."
 command -v curl >/dev/null 2>&1 || {
     log "ERROR" "curl not found, aborting."
@@ -48,64 +77,67 @@ command -v helm >/dev/null 2>&1 || {
 }
 log "DONE" "tools already installed"
 
-####### k3s #######
-log "INFO" "installing k3s..."
-curl -sfL https://get.k3s.io | INSTALL_K3S_VERSION=v1.20.9+k3s1 sh -
-log "INFO" "waiting for k3s to start..."
-waitUntilK3sIsReady $TIMER
-mkdir ~/.kube
-sudo cp /etc/rancher/k3s/k3s.yaml ~/.kube/k3s-config && sudo chown $USER: ~/.kube/k3s-config && export KUBECONFIG=~/.kube/k3s-config
-log "INFO" "done"
-
+# deploy k3s
 export DEV_NS=default
+if hash sudo kubectl 2>/dev/null; then
+    sudo cp /etc/rancher/k3s/k3s.yaml ~/.kube/k3s-config && sudo chown $USER: ~/.kube/k3s-config && export KUBECONFIG=~/.kube/k3s-config
+    kubectl apply -f namespaces.yml
+else
+    log "INFO" "installing k3s..."
+    curl -sfL https://get.k3s.io | INSTALL_K3S_VERSION=v1.20.9+k3s1 sh -
+    log "INFO" "waiting for k3s to start..."
+    sleep 30
+    waitUntilK3sIsReady $TIMER
+    rm -rf ~/.kube && mkdir ~/.kube
+    sudo cp /etc/rancher/k3s/k3s.yaml ~/.kube/k3s-config && sudo chown $USER: ~/.kube/k3s-config && export KUBECONFIG=~/.kube/k3s-config
+    kubectl apply -f namespaces.yml
+    log "INFO" "done"
+fi
 
-###################
-##### deploy ######
-###################
-log "INFO" "deploying rabbitMQ..."
-helm repo add groundhog2k https://groundhog2k.github.io/helm-charts/
-helm install rabbitmq groundhog2k/rabbitmq --version 0.2.19 --namespace $DEV_NS --set replicaCount=1 --set authentication.user=user --set authentication.password=password
-log "INFO" "done"
-log "INFO" "deploying elasticsearch..."
-helm repo add elastic https://Helm.elastic.co
-helm install elasticsearch elastic/elasticsearch --namespace $DEV_NS --set replicas=1
-log "INFO" "done"
-log "INFO" "deploying kibana..."
-helm repo add elastic https://Helm.elastic.co
-helm install kibana elastic/kibana --namespace $DEV_NS --set replicas=1
-log "INFO" "done"
-log "INFO" "deploying logstash using notelab.yml file..."
-helm install logstash-notelab elastic/logstash --namespace $DEV_NS -f notelab.yml --set replicas=1
-log "INFO" "done"
+# deploy selected tools
+if [[ "$rabbitmq" = true ]]; then
+    log "INFO" "deploying rabbitMQ..."
+    helm repo add groundhog2k https://groundhog2k.github.io/helm-charts/
+    helm install rabbitmq groundhog2k/rabbitmq --version 0.2.19 --namespace $DEV_NS --set replicaCount=1 --set authentication.user=user --set authentication.password=password
+    log "INFO" "done"
+fi
+if [ "$elasticsearch" = true ]; then
+    log "INFO" "deploying elasticsearch..."
+    helm repo add elastic https://Helm.elastic.co
+    helm install elasticsearch elastic/elasticsearch --namespace $DEV_NS --set replicas=1
+    log "INFO" "done"
+fi
+if [ "$logstash" = true ]; then
+    log "INFO" "deploying logstash using notelab.yml file..."
+    helm install logstash-notelab elastic/logstash --namespace $DEV_NS -f notelab.yml --set replicas=1
+    log "INFO" "done"
+fi
 
-################################
-##### wait for deployment ######
-################################
-blockUntilPodIsReady "app.kubernetes.io/name=rabbitmq" $TIMER
-blockUntilPodIsReady "app=elasticsearch-master" $TIMER
-blockUntilPodIsReady "app=kibana" $TIMER
-blockUntilPodIsReady "app=logstash-notelab-logstash" $TIMER
-log "INFO" "done"
+# wait for deployment
+if [[ "$rabbitmq" = true ]]; then
+    blockUntilPodIsReady "app.kubernetes.io/name=rabbitmq" $TIMER
+    kubectl port-forward -n $DEV_NS svc/rabbitmq --address 0.0.0.0 5672 &
+    kubectl port-forward -n $DEV_NS svc/rabbitmq --address 0.0.0.0 15672:15672 &
+    log "INFO" "done"
+fi
+if [ "$elasticsearch" = true ]; then
+    blockUntilPodIsReady "app=elasticsearch-master" $TIMER
+    ES_POD=$(kubectl get pods -n $DEV_NS -l "app=elasticsearch-master" -o jsonpath="{.items[0].metadata.name}")
+    kubectl port-forward -n $DEV_NS $ES_POD --address 0.0.0.0 9200 &
+    log "INFO" "done"
+fi
+if [ "$logstash" = true ]; then
+    blockUntilPodIsReady "app=logstash-notelab-logstash" $TIMER
+    log "INFO" "done"
+fi
 
-#########################
-##### port-forward ######
-#########################
-kubectl port-forward -n $DEV_NS svc/rabbitmq --address 0.0.0.0 5672 &
-kubectl port-forward -n $DEV_NS svc/rabbitmq --address 0.0.0.0 15672:15672 &
-ES_POD=$(kubectl get pods -n $DEV_NS -l "app=elasticsearch-master" -o jsonpath="{.items[0].metadata.name}")
-kubectl port-forward -n $DEV_NS $ES_POD --address 0.0.0.0 9200 &
-KIBANA_POD=$(kubectl get pods -n $DEV_NS -l "app=kibana" -o jsonpath="{.items[0].metadata.name}")
-kubectl port-forward -n $DEV_NS $KIBANA_POD --address 0.0.0.0 5601:5601 &
-log "INFO" "done"
-
-###################################
-##### keep connections alive ######
-###################################
+# keep connections alive
 log "INFO" "keeping connections alive..."
 while true; do
-    nc -vz 127.0.0.1 5672
-    nc -vz 127.0.0.1 15672
-    nc -vz 127.0.0.1 9200
-    nc -vz 127.0.0.1 5601
+    if [ "$rabbitmq" = true ]; then
+        nc -vz 127.0.0.1 5672
+        nc -vz 127.0.0.1 15672
+    fi
+    if [ "$elasticsearch" = true ]; then nc -vz 127.0.0.1 9200; fi
     sleep 60
 done
