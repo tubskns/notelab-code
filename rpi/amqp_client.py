@@ -16,13 +16,11 @@ def publish(channel, msg, exchange, routing_key, queue):
 
 
 def on_message(channel, method, properties, msg):
-    global message
-    message = msg
     print("AMQP consumer - Message received: " + msg.decode("utf-8"))
 
 
-def subscribe(channel, queue):
-    channel.basic_consume(queue, on_message_callback=on_message, auto_ack=True)
+def subscribe(channel, queue, on_message_callback):
+    channel.basic_consume(queue, on_message_callback=on_message_callback, auto_ack=True)
     print("AMQP subscriber - Subscribed to: " + queue)
     channel.start_consuming()
 
@@ -38,4 +36,4 @@ if __name__ == "__main__":
     message = "message_test"
     channel = connect_to_broker(ip, port, user, passw)
     publish(channel, message, exchange, routing_key, queue)
-    subscribe(channel, queue)
+    subscribe(channel, queue, on_message)
