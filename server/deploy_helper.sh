@@ -81,7 +81,6 @@ log "DONE" "tools already installed"
 export DEV_NS=default
 if hash sudo kubectl 2>/dev/null; then
     sudo cp /etc/rancher/k3s/k3s.yaml ~/.kube/k3s-config && sudo chown $USER: ~/.kube/k3s-config && export KUBECONFIG=~/.kube/k3s-config
-    kubectl apply -f namespaces.yml
 else
     log "INFO" "installing k3s..."
     curl -sfL https://get.k3s.io | INSTALL_K3S_VERSION=v1.20.9+k3s1 sh -
@@ -90,7 +89,6 @@ else
     waitUntilK3sIsReady $TIMER
     rm -rf ~/.kube && mkdir ~/.kube
     sudo cp /etc/rancher/k3s/k3s.yaml ~/.kube/k3s-config && sudo chown $USER: ~/.kube/k3s-config && export KUBECONFIG=~/.kube/k3s-config
-    kubectl apply -f namespaces.yml
     log "INFO" "done"
 fi
 
