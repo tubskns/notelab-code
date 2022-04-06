@@ -7,7 +7,7 @@ r_key_rabbit = "notelab"
 queue_rabbit = "notelab"
 # mosquitto
 ip_mosquitto = "192.168.1.3"
-topic_mosquitto = "distance_topic"
+topic_mosquitto = "test_topic"
 
 # connect to rabbitmq
 amqp_channel = amqp_client.connect_to_broker(
@@ -26,7 +26,9 @@ while True:
         # retrieve topic and payload
         topic = mqtt_client.message
         payload = str(mqtt_client.message.payload.decode("utf-8"))
+        print("Connector_1 - MQTT subscriber - Message received: " + payload)
         # forward payload to amqp server
+        print("Connector_1 - AMQP publisher - Forwarding data from Mosquitto to Rabbitmq: " + payload)
         amqp_client.publish(amqp_channel, payload, exchange_rabbit, r_key_rabbit, queue_rabbit)
         # reset message
         mqtt_client.message = None

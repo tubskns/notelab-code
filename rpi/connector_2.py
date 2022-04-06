@@ -3,17 +3,17 @@ import time
 import json
 
 # elastic
-ip_elastic = "http://192.168.1.3:9200"
+url_elastic = "http://192.168.1.7:9200"
 index_elastic = "notelab"
 # rabbit
-ip_rabbit = "192.168.1.3"
+ip_rabbit = "134.169.115.45"
 exchange_rabbit = "amq.topic"
 r_key_rabbit = "notelab"
 queue_rabbit = "notelab_queue"
 # mosquitto
 ip_mosquitto = "192.168.1.3"
-actuator1_topic_mosquitto = "test_topic"
-actuator2_topic_mosquitto = "test_topic"
+actuator1_topic_mosquitto = "test_topic_1"
+actuator2_topic_mosquitto = "test_topic_2"
 
 # connect to mosquitto
 mqttc = mqtt_client.connect(ip_mosquitto)
@@ -21,23 +21,28 @@ mqttc = mqtt_client.connect(ip_mosquitto)
 
 def on_amqp_message(channel, method, properties, msg):
     # rabbit
+    print("Connector_2 - AMQP consumer - Message received: " + msg.decode("utf-8"))
     payload_rabbit = str(msg.decode("utf-8"))
     # elastic
+    print("Connector_2 - HTTP GET - Retrieving message from Elasticsearch...")
     res_elastic = http_client.query(
-        ip_elastic + "/" + index_elastic + "/" + actuator1_topic_mosquitto + "/_search",
+        url_elastic + "/" + index_elastic + "/_search",
         method="GET",
     )
     payload_elastic = None
     if res_elastic is not None:
-        hits = res_elastic["hits"]["hits"]
-        last_hit = hits[len(hits) - 1]
-        msg = last_hit["_source"]
-        payload_elastic = json.dumps(msg)
+        if res_elastic["hits"]["total"]["value"] > 0: 
+            hits = res_elastic["hits"]["hits"]
+            last_hit = hits[len(hits) - 1]
+            msg = last_hit["_source"]
+            payload_elastic = json.dumps(msg)
     # mosquitto
     if payload_elastic is not None:
-        mqttc.publish(actuator2_topic_mosquitto, payload_elastic)
+        print("Connector_2 - MQTT publisher - Forwarding data from Elasticsearch to Mosquitto: " + payload_elastic)
+        mqttc.publish(actuator1_topic_mosquitto, payload_elastic)
     if payload_rabbit is not None:
-        mqttc.publish(actuator1_topic_mosquitto, payload_rabbit)
+        print("Connector_2 - MQTT publisher - Forwarding data from Rabbitmq to Mosquitto: " + payload_rabbit)
+        mqttc.publish(actuator2_topic_mosquitto, payload_rabbit)
 
 
 # connect to rabbitmq and subscribe to topics
