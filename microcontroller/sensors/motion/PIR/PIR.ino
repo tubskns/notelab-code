@@ -1,14 +1,16 @@
-#include "interface_PIR.h"
+#include "PIR.h"
+
+const int pirSensor = 13; // PIR's pin is connected to NodeMCU's GPIO13 (D7) or WeMos GPIO13 (D7)
+PIR pir(pirSensor);
 
 void setup()
 {
   Serial.begin(115200);
-  initialize_sensor();
 }
 
 void loop()
 {
-  bool is_motion = detect_motion();
+  bool is_motion = pir.detect_motion();
   if (is_motion == true)
   {
     Serial.println("Motion detected!");
