@@ -9,12 +9,13 @@ DHT dht(DHTPIN, DHT11); // instantiate DHT object
 void setup()
 {
   Serial.begin(115200); // establish serial communication at baud rate 115200
+  dht.begin(); // initialize the sensor
 }
 
 void loop()
 {
   float humidity = dht.readHumidity(); 
-  if (isnan(humidity)) {
+  if (!isnan(humidity)) {
     String humidity_str = String(humidity); //convert float to string
     Serial.print("Humidity: " + humidity_str + " %\n");
   } else {
@@ -22,7 +23,7 @@ void loop()
   }
 
   float temperature = dht.readTemperature(); 
-  if (isnan(temperature))
+  if (!isnan(temperature))
   {
     String temperature_str = String(temperature); //convert float to string
     Serial.print("Temperature: " + temperature_str + " *C\n");

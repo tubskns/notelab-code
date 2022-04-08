@@ -1,8 +1,7 @@
 #include "mqtt_client.h"
 #include "wifi_connection.h"
-#include "interface_DHT11.h"
-#include "interface_HCSR04.h"
-#include "interface_PIR.h"
+#include "HCSR04.h"
+#include "PIR.h"
 #include <ArduinoJson.h>
 
 String ssid_wifi = "netw0";     // student's network SSID
@@ -15,25 +14,29 @@ char* mqtt_topic1 = "temperature_topic";
 char* mqtt_topic2 = "distance_topic";
 char* mqtt_topic3 = "motion_topic";
 
+const int trigPin = 5; // HC-SR04's trigger pin is connected to NodeMCU's GPIO5 (D1)
+const int echoPin = 4; // HC-SR04's echo pin is connected to NodeMCU's GPIO4 (D2)
+
+const int pirSensor = 13; // PIR's pin is connected to NodeMCU's GPIO13 (D7) or WeMos GPIO13 (D7)
+PIR pir(pirSensor);
+
 void setup(){
   Serial.begin(115200); // establish serial communication at baud rate 115200
   connect_to_wifi(ssid_wifi, pass_wifi);
   initialize_client(mqtt_broker_ip, mqtt_broker_port);
-  //initialize_sensor();
 }
 
 void loop(){
   check_connection(client_id);
   //temperature sensor
-  float temperature = get_temperature();
-  String temperature_str = String(temperature); // convert float to string
-  Serial.print("Temperature: " + temperature_str + " *C\n");
+ 
   //distance sensor
-  int distance = calculate_distance();
+  int distance = hcsr04.calculate_distance();
   String distance_str = String(distance); // convert int to string
   Serial.print("Distance: " + distance_str + " cm\n");
+  delay(1000);
   //motion sensor
-   bool is_motion = detect_motion();
+  bool is_motion = pir.detect_motion();
   if (is_motion == true)
   {
     Serial.println("Motion detected!");
