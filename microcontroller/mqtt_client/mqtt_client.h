@@ -10,4 +10,6 @@ void publish_message(char* topic, char* msg);
 
 void check_connection(const char* client_id);
 
-String get_buffer();
+String get_msg();
+
+String get_topic();

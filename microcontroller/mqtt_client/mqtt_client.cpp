@@ -4,7 +4,8 @@
 
 WiFiClient wifi_client;
 MQTTClient mqtt_client;
-String buffer;
+String _msg;
+String _topic;
 
 void connect(const char *client_id){
   Serial.print("\nConnecting to MQTT broker... ");
@@ -18,7 +19,8 @@ void connect(const char *client_id){
 
 void callback(String &topic, String &payload){
   Serial.println("Message arrived [" + topic + "]: " + payload);
-  buffer = payload;
+  _msg = payload;
+  _topic = topic;
 }
 
 void initialize_client(const char *mqtt_broker_ip, const int mqtt_broker_port){
@@ -42,6 +44,10 @@ void check_connection(const char *client_id){
   if (!mqtt_client.connected()){ connect(client_id); }
 }
 
-String get_buffer(){
-  return buffer;
+String get_msg(){
+  return _msg;
+}
+
+String get_topic(){
+  return _topic;
 }

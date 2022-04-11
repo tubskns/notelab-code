@@ -28,9 +28,9 @@ void setup(){
 
 void loop(){
   check_connection(client_id);
-  String buffer = get_buffer();
+  String msg = get_msg();
   DynamicJsonDocument doc(1024);
-  deserializeJson(doc, buffer);
+  deserializeJson(doc, msg);
   temperature = doc["temperature"];
   Serial.println(temperature);
   if (temperature >= 10.0 && temperature < 20.0){
