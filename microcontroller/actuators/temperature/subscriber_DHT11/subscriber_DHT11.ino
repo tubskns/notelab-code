@@ -2,14 +2,17 @@
 #include "wifi_connection.h"
 #include <ArduinoJson.h>
 
-//#define LED D1 //external LED connected to NodeMCU's pin GPIO5
-#define LED 13 //external LED connected to WeMos's pin GPIO14
-String ssid_wifi = "netw1";     // student's network SSID
+#define LED D1 //green external LED connected to NodeMCU's pin GPIO5 (D1)
+//#define LED 13 //external LED connected to WeMos's pin GPIO14
+
+String ssid_wifi = "netw0";     // student's network SSID
 String pass_wifi = "password1"; // student's network password
+
 const char* mqtt_broker_ip = "192.168.1.3"; // broker IP address
 const int mqtt_broker_port = 1883; // MQTT port 
 const char* client_id = "subscriber_DHT11";
-char* mqtt_topic = "temperature_actuator_topic";
+char* mqtt_topic = "temperature_topic";
+
 float temperature = 0;
 float humidity = 0;
 float blink_delay = 100;
@@ -39,7 +42,6 @@ void loop(){
   else{
     blink_delay = 1000;
   }
-  Serial.println(blink_delay);
   digitalWrite(LED, HIGH); // turn the LED on (HIGH is the voltage level)
   delay(blink_delay);      // wait
   digitalWrite(LED, LOW);  // turn the LED off by making the voltage LOW
