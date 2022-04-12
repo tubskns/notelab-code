@@ -32,7 +32,7 @@ void loop(){
   check_connection(client_id);
   float temperature = dht.readTemperature(); 
   if (!isnan(temperature)){
-    temp_doc["id"] = client_id
+    temp_doc["id"] = client_id;
     temp_doc["temperature"] = temperature;
   } 
   int distance = hcsr04.calculate_distance();

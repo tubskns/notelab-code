@@ -36,8 +36,8 @@ void loop(){
   String topic = get_topic();
   deserializeJson(msg_doc, msg);
   if (topic == motion_topic){
-    bool motion = motion_doc["motion"];
-    if (motion = true){
+    bool motion = msg_doc["motion"];
+    if (motion == true){
       digitalWrite(LED1, HIGH);
     }
     else{
@@ -46,6 +46,7 @@ void loop(){
   }
   else if (topic == dist_topic){
     float distance = msg_doc["distance"];
+    float blink_delay=0;
     if (distance >= 1.0 && distance < 5.0){
       blink_delay = 500;
     }
@@ -65,6 +66,8 @@ void loop(){
     if (temperature != prev_temp){
       digitalWrite(LED3, HIGH);
       prev_temp = temperature;
+    } else {
+      digitalWrite(LED3, LOW);
     }
   }
   else{Serial.println("Topic not matching, ignoring...");}
