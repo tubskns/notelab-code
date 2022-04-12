@@ -7,27 +7,23 @@ String pass_wifi = "password1";
 const char *mqtt_broker_ip = "192.168.1.3";
 const int mqtt_broker_port = 1883;
 const char *client_id = "subscriber_sensors";
-char *topics = {"temp_topic", "dist_topic", "motion_topic"}
-uint8_t *leds = {D1, D2, D3} // green, yellow, red
+String topics[3] = {"motion_topic", "dist_topic", "temp_topic"};
+uint8_t leds[3] = {D1, D2, D3}; // green, yellow, red
 DynamicJsonDocument msg_doc(1024);
 float prev_temp = 0;
 int led2_state = LOW; 
-long led2_interval = 10000000;
+long led2_interval = 1000000;
 unsigned long prev_millis = 0;
 
 void setup(){
   Serial.begin(115200);
   connect_to_wifi(ssid_wifi, pass_wifi);
-  for (int i = 0; i < (sizeof(leds) / sizeof(leds[0])); i++) {
-    pinMode(leds[i], OUTPUT);
-  }
+  for (int i = 0; i < (sizeof(leds) / sizeof(leds[0])); i++) pinMode(leds[i], OUTPUT);
   initialize_client(mqtt_broker_ip, mqtt_broker_port);
-  connect(client_id);
-  subscribe_to_topic(topics);
 }
 
 void loop(){
-  check_connection(client_id);
+  check_connection(client_id, topics, (sizeof(topics)/sizeof(topics[0])));
   String msg = get_msg();
   String topic = get_topic();
   unsigned long current_millis = millis();
@@ -54,6 +50,7 @@ void loop(){
       digitalWrite(leds[2], HIGH);
       prev_temp = temperature;
     } else { digitalWrite(leds[2], LOW); }
-  } else{Serial.println("Topic not matching, ignoring...");}
+  } else{//ignore
+    }
   reset_msg();
 }

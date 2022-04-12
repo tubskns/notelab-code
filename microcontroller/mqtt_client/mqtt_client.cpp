@@ -7,31 +7,28 @@ MQTTClient mqtt_client;
 String _msg;
 String _topic;
 
-void connect(const char *client_id){
-  Serial.print("\nConnecting to MQTT broker... ");
-  while (!mqtt_client.connect(client_id, "public", "public")){
-    Serial.print(".");
-    delay(1000);
-  }
-  Serial.print("connected!");
-}
-
 void callback(String &topic, String &payload){
   Serial.println("Message arrived [" + topic + "]: " + payload);
   _msg = payload;
   _topic = topic;
 }
 
-void initialize_client(const char *mqtt_broker_ip, const int mqtt_broker_port){
-  mqtt_client.begin(mqtt_broker_ip, wifi_client);
+void connect(const char *client_id, String *topics, int num_topics){
+  Serial.println("Connecting to MQTT broker... ");
+  while (!mqtt_client.connect(client_id, "public", "public")){
+    Serial.print(".");
+    delay(1000);
+  }
+  Serial.println("connected!");
+  for (int i = 0; i < num_topics; i++) {
+    Serial.println("Subscribing to topic: " + topics[i]);
+    mqtt_client.onMessage(callback);
+    mqtt_client.subscribe(topics[i]);
+  }
 }
 
-void subscribe_to_topic(char *topics){
-  for (int i = 0; i < (sizeof(topic) / sizeof(topic[0])); i++) {
-      Serial.println("Subscribing to topic: " + String(topics[i]));
-      mqtt_client.onMessage(callback);
-      mqtt_client.subscribe(topics[i]);
-  }
+void initialize_client(const char *mqtt_broker_ip, const int mqtt_broker_port){
+  mqtt_client.begin(mqtt_broker_ip, wifi_client);
 }
 
 void publish_message(char *topic, char *msg){
@@ -39,10 +36,10 @@ void publish_message(char *topic, char *msg){
   mqtt_client.publish(topic, msg);
 }
 
-void check_connection(const char *client_id){
+void check_connection(const char *client_id, String *topics, int num_topics){
   mqtt_client.loop();
   delay(10);
-  if (!mqtt_client.connected()){ connect(client_id); }
+  if (!mqtt_client.connected()) connect(client_id, topics, num_topics);
 }
 
 String get_msg(){ return _msg; }
@@ -50,6 +47,6 @@ String get_msg(){ return _msg; }
 String get_topic(){ return _topic; }
 
 void reset_msg(){
-  _msg = ""
-  _topic = ""
+  _msg = "";
+  _topic = "";
 }

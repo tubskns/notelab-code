@@ -10,8 +10,8 @@ String pass_wifi = "password1";
 const char* mqtt_broker_ip = "192.168.1.3";
 const int mqtt_broker_port = 1883;
 const char* client_id = "publisher_sensors";
-char* temp_topic = "temperature_topic";
-char* dist_topic = "distance_topic";
+char* temp_topic = "temp_topic";
+char* dist_topic = "dist_topic";
 char* motion_topic = "motion_topic";
 
 #define DHTPIN 0 // DHT11's pin
@@ -20,6 +20,7 @@ DHT dht(DHTPIN, DHT11);
 HCSR04 hcsr04(5, 4); // specify HC-SR04 trig and echo pins
 PIR pir(13); // specify PIR's pin
 DynamicJsonDocument temp_doc(1024), dist_doc(1024), motion_doc(1024);
+String *no_sub_topics;
 
 void setup(){
   Serial.begin(115200);
@@ -29,7 +30,7 @@ void setup(){
 }
 
 void loop(){
-  check_connection(client_id);
+  check_connection(client_id, no_sub_topics, 0);
   float temperature = dht.readTemperature(); 
   if (!isnan(temperature)){
     temp_doc["id"] = client_id;
