@@ -1,5 +1,6 @@
 import pika
 
+
 def connect_to_broker(ip, port, user, passw):
     credentials = pika.PlainCredentials(user, passw)
     parameters = pika.ConnectionParameters(ip, port, "/", credentials)
@@ -20,9 +21,8 @@ def on_message(channel, method, properties, msg):
 
 
 def subscribe(channel, queue, on_message_callback):
-    channel.basic_consume(queue, on_message_callback=on_message_callback, auto_ack=True)
+    channel.basic_consume(queue, on_message_callback=on_message_callback)
     print("AMQP subscriber - Subscribed to: " + queue)
-    channel.start_consuming()
 
 
 if __name__ == "__main__":
@@ -37,3 +37,4 @@ if __name__ == "__main__":
     channel = connect_to_broker(ip, port, user, passw)
     publish(channel, message, exchange, routing_key, queue)
     subscribe(channel, queue, on_message)
+    channel.start_consuming()
