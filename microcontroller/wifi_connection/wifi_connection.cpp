@@ -10,6 +10,5 @@ void connect_to_wifi(String ssid, String pass)
         Serial.print(".");
         delay(500); // add delay until network connected
     }
-    Serial.println("Connected to WiFi, IP address: ");
-    Serial.println(WiFi.localIP());
+    Serial.println(" connected to WiFi: " + WiFi.localIP().toString());
 }

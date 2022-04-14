@@ -1,4 +1,6 @@
 import requests, json, time
+import logging
+
 
 def query(url, method, payload=None):
     try:
@@ -19,17 +21,14 @@ def query(url, method, payload=None):
             )
         if method == "DELETE":
             res = requests.delete(url)
-        res_content = None
         if res.content is not None:
-            res_content = json.loads(res.content.decode("utf8"))
-        print(
-            "HTTP client - " + method + " - [" + url + "] code: ",
-            res.status_code,
-            ", content: " + json.dumps(res_content, indent=4),
-        )
-        return res_content
+            logging.debug(
+                "HTTP - [" + method + "][" + str(res.status_code) + "][" + url + "]"
+            )
+            return json.loads(res.content.decode("utf8"))
     except:
-        print("HTTP client - " + method + " - Connection error!")
+        logging.error("HTTP - " + method + " - Connection error!")
+
 
 if __name__ == "__main__":
     root_url = "http://192.168.1.3:9200/"

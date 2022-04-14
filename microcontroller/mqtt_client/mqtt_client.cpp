@@ -14,16 +14,16 @@ void callback(String &topic, String &payload){
 }
 
 void connect(const char *client_id, String *topics, int num_topics){
-  Serial.println("Connecting to MQTT broker... ");
+  Serial.print("Connecting to MQTT broker... ");
   while (!mqtt_client.connect(client_id, "public", "public")){
     Serial.print(".");
     delay(1000);
   }
-  Serial.println("connected!");
+  Serial.println("done!");
   for (int i = 0; i < num_topics; i++) {
-    Serial.println("Subscribing to topic: " + topics[i]);
     mqtt_client.onMessage(callback);
     mqtt_client.subscribe(topics[i]);
+    Serial.println("Subscribed to topic: " + topics[i]);
   }
 }
 
@@ -32,8 +32,8 @@ void initialize_client(const char *mqtt_broker_ip, const int mqtt_broker_port){
 }
 
 void publish_message(char *topic, char *msg){
-  Serial.println("Publishing message [ " + String(topic) + " ]: " + String(msg));
   mqtt_client.publish(topic, msg);
+  Serial.println("Message published [ " + String(topic) + " ]: " + String(msg));
 }
 
 void check_connection(const char *client_id, String *topics, int num_topics){

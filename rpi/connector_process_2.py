@@ -1,6 +1,6 @@
 import mqtt_client, amqp_client, http_client
 import json
-
+import logging
 
 def on_motion_message(channel, method, properties, msg):
     global IS_ACTIVATED
@@ -53,20 +53,21 @@ dist_led_topic = "dist_led_topic"
 
 # global vars
 IS_ACTIVATED = False
+logging.basicConfig(
+    format="%(asctime)s | %(name)s | %(levelname)s | %(message)s", level=logging.INFO
+)
 
+logging.info("Running connector... ")
 mqttc = mqtt_client.connect(ip_mosquitto)
 
 amqp_client.message = None
 amqp_channel = amqp_client.connect_to_broker(
     ip_rabbit, port=5672, user="user", passw="password"
 )
-
 amqp_client.subscribe(amqp_channel, dist_queue_rabbit, on_dist_message)
 amqp_client.subscribe(amqp_channel, motion_queue_rabbit, on_motion_message)
-
 try:
     amqp_channel.start_consuming()
 except KeyboardInterrupt:
     amqp_channel.stop_consuming()
-
 amqp_channel.close()
