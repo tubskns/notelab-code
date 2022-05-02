@@ -1,6 +1,7 @@
 import paho.mqtt.client as mqtt
 import logging
 
+
 def on_connect(client, userdata, flags, rc):
     logging.info("MQTT - connected to broker, code " + str(rc))
 
@@ -33,14 +34,20 @@ def connect(ip, port=1883):
     mqttc.on_subscribe = on_subscribe
     # mqttc.on_log = on_log
     try:
-        mqttc.connect(ip, port, 60) 
+        mqttc.connect(ip, port, 60)
     except:
-        logging.error("MQTT - [" + ip + ":" + str(port) + "] connection failed!, exiting...")
+        logging.error(
+            "MQTT - [" + ip + ":" + str(port) + "] connection failed!, exiting..."
+        )
         exit(1)
     return mqttc
 
 
 if __name__ == "__main__":
+    logging.basicConfig(
+        format="%(asctime)s | %(name)s | %(levelname)s | %(message)s",
+        level=logging.DEBUG,
+    )
     mqtt_broker_ip = "192.168.1.3"
     mqtt_broker_port = 1883
     mqtt_topic = "testMQTT"

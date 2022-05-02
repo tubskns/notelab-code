@@ -27,6 +27,10 @@ def subscribe(channel, queue, on_message_callback):
 
 
 if __name__ == "__main__":
+    logging.basicConfig(
+        format="%(asctime)s | %(name)s | %(levelname)s | %(message)s",
+        level=logging.DEBUG,
+    )
     ip = "192.168.1.7"
     port = 5672
     user = "user"

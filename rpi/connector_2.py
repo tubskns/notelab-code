@@ -35,3 +35,8 @@ mqttc = mqtt_client.connect(ip_mosquitto)
 amqp_client.message = None
 amqp_channel = amqp_client.connect_to_broker(ip_rabbit, port=5672, user="user", passw="password") 
 amqp_client.subscribe(amqp_channel, queue_rabbit, on_amqp_message)
+try:
+    amqp_channel.start_consuming()
+except KeyboardInterrupt:
+    amqp_channel.stop_consuming()
+amqp_channel.close()

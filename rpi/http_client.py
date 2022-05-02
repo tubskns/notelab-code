@@ -31,6 +31,10 @@ def query(url, method, payload=None):
 
 
 if __name__ == "__main__":
+    logging.basicConfig(
+        format="%(asctime)s | %(name)s | %(levelname)s | %(message)s",
+        level=logging.DEBUG,
+    )
     root_url = "http://192.168.1.3:9200/"
     index_es = "testindex"
     query(
