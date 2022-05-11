@@ -1,10 +1,11 @@
+
 #include "MqttClient.h"
 #include "WifiClient.h"
 
-String ssid_wifi = "netw1";
+String ssid_wifi = "netw0";
 String pass_wifi = "password1";
 
-const char *mqtt_broker_ip = "broker.hivemq.com";
+const char *mqtt_broker_ip = "192.168.1.3";
 const int mqtt_broker_port = 1883;
 const char *client_id = "client_id";
 const int num_subscribe_topics = 1;
@@ -16,7 +17,7 @@ MqttClient mqtt_client(mqtt_broker_ip, mqtt_broker_port, subscribe_topics, num_s
 
 void setup()
 {
-    Serial.begin(9200);
+    Serial.begin(115200);
     wifi_client.connect();
     mqtt_client.connect(client_id);
     mqtt_client.publish_message(publish_topic, publish_message);

@@ -1,15 +1,17 @@
-#include "mqtt_client.h"
-#include "wifi_connection.h"
+#include "MqttClient.h"
+#include "WifiClient.h"
 #include "DHT.h" // DHT module library
 #include <ArduinoJson.h>
 
-String ssid_wifi = "netw0";     // student's network SSID
-String pass_wifi = "password1"; // student's network password
+String ssid_wifi = "netw0";     
+String pass_wifi = "password1";
 
-const char* mqtt_broker_ip = "192.168.1.3"; // broker IP address
-const int mqtt_broker_port = 1883;          // MQTT port (default :1883)
-const char* client_id = "publisher_DHT11";
-char* mqtt_topic = "temperature_topic";
+const char *mqtt_broker_ip = "192.168.1.3";
+const int mqtt_broker_port = 1883;
+const char *client_id = "publisher_DHT11";
+const char *publish_topic = "temperature_topic";
+WifiClient wifi_client(ssid_wifi, pass_wifi);
+MqttClient mqtt_client(mqtt_broker_ip, mqtt_broker_port);
 
 #define DHTPIN 0 // DHT11's data pin is connected to NodeMCU's GPIO0 (D3)
 // #define DHTPIN D5 // DHT11's data pin is connected to WeMos GPIO14 (D5)
@@ -17,15 +19,24 @@ char* mqtt_topic = "temperature_topic";
 #define DHTTYPE DHT11 // DHT type
 DHT dht(DHTPIN, DHT11); // instantiate DHT object
 
+
+//const char* mqtt_broker_ip = "192.168.1.3"; // broker IP address
+//const int mqtt_broker_port = 1883;          // MQTT port (default :1883)
+//const char* client_id = "publisher_DHT11";
+//char* mqtt_topic = "temperature_topic";
+
+
 void setup(){
   Serial.begin(115200); // establish serial communication at baud rate 115200
-  connect_to_wifi(ssid_wifi, pass_wifi);
-  initialize_client(mqtt_broker_ip, mqtt_broker_port);
+  //connect_to_wifi(ssid_wifi, pass_wifi);
+  //initialize_client(mqtt_broker_ip, mqtt_broker_port);
+  wifi_client.connect();
+  mqtt_client.connect(client_id);
   dht.begin(); // initialize the sensor
 }
 
 void loop(){
-  check_connection(client_id);
+  mqtt_client.check_connection(client_id);
   float humidity = dht.readHumidity(); 
   if (!isnan(humidity)) {
     String humidity_str = String(humidity); //convert float to string
@@ -55,6 +66,7 @@ void loop(){
   serializeJson(doc, json_doc);
   char buf[500];
   json_doc.toCharArray(buf, 500);
-  publish_message(mqtt_topic, buf);
+  mqtt_client.publish_message(publish_topic, buf);
+  //publish_message(mqtt_topic, buf);
   delay(5000);
 }
