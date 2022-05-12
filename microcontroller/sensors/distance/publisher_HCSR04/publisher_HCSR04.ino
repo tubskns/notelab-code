@@ -1,15 +1,17 @@
-#include "mqtt_client.h"
-#include "wifi_connection.h"
+#include "MqttClient.h"
+#include "WifiClient.h"
 #include "HCSR04.h"
 #include <ArduinoJson.h>
 
-String ssid_wifi = "netw1";     // student's network SSID
+String ssid_wifi = "netw0";     // student's network SSID
 String pass_wifi = "password1"; // student's network password
 
-const char* mqtt_broker_ip = "192.168.1.3"; // broker IP address
-const int mqtt_broker_port = 1883;          // MQTT port (default :1883)
-const char* client_id = "publisher_HCSR04";
-char* mqtt_topic = "distance_topic";
+const char *mqtt_broker_ip = "192.168.1.3";
+const int mqtt_broker_port = 1883;
+const char *client_id = "publisher_HCSR04";
+const char *publish_topic = "distance_topic";
+WifiClient wifi_client(ssid_wifi, pass_wifi);
+MqttClient mqtt_client(mqtt_broker_ip, mqtt_broker_port);
 
 const int trigPin = 5; // HC-SR04's trigger pin is connected to NodeMCU's GPIO5 (D1)
 const int echoPin = 4; // HC-SR04's echo pin is connected to NodeMCU's GPIO4 (D2)
@@ -22,13 +24,13 @@ HCSR04 hcsr04(trigPin, echoPin);
 void setup()
 {
   Serial.begin(115200); // establish serial communication at baud rate 115200
-  connect_to_wifi(ssid_wifi, pass_wifi);
-  initialize_client(mqtt_broker_ip, mqtt_broker_port);
+  wifi_client.connect();
+  mqtt_client.connect(client_id);
 }
 
 void loop()
 {
-  check_connection(client_id);
+  mqtt_client.check_connection(client_id);
   int distance = hcsr04.calculate_distance();
   String distance_str = String(distance); // convert int to string
   Serial.print("Distance: " + distance_str + " cm\n");
@@ -46,7 +48,6 @@ void loop()
 
   char buf[500];
   json_doc.toCharArray(buf, 500);
-  publish_message(mqtt_topic, buf);
-
+  mqtt_client.publish_message(publish_topic, buf);
   delay(5000);
 }

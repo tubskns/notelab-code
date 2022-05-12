@@ -1,15 +1,17 @@
-#include "mqtt_client.h"
-#include "wifi_connection.h"
+#include "MqttClient.h"
+#include "WifiClient.h"
 #include "PIR.h"
 #include <ArduinoJson.h>
 
 String ssid_wifi = "netw0";     // student's network SSID
 String pass_wifi = "password1"; // student's network password
 
-const char* mqtt_broker_ip = "192.168.1.3"; // broker IP address
-const int mqtt_broker_port = 1883;          // MQTT port (default :1883)
-const char* client_id = "publisher_PIR";
-char* mqtt_topic = "motion_topic";
+const char *mqtt_broker_ip = "192.168.1.3";
+const int mqtt_broker_port = 1883;
+const char *client_id = "publisher_PIR";
+const char *publish_topic = "motion_topic";
+WifiClient wifi_client(ssid_wifi, pass_wifi);
+MqttClient mqtt_client(mqtt_broker_ip, mqtt_broker_port);
 
 const int pirSensor = 13; // PIR's pin is connected to NodeMCU's GPIO13 (D7) or WeMos GPIO13 (D7)
 PIR pir(pirSensor);
@@ -17,14 +19,14 @@ PIR pir(pirSensor);
 void setup()
 {
   Serial.begin(115200); // establish serial communication at baud rate 115200
-  connect_to_wifi(ssid_wifi, pass_wifi);
-  initialize_client(mqtt_broker_ip, mqtt_broker_port);
+  wifi_client.connect();
+  mqtt_client.connect(client_id);
 }
 
 
 void loop()
 {
-  check_connection(client_id);
+  mqtt_client.check_connection(client_id);
   bool is_motion = pir.detect_motion();
   if (is_motion == true)
   {
@@ -48,7 +50,6 @@ void loop()
 
   char buf[500];
   json_doc.toCharArray(buf, 500);
-  publish_message(mqtt_topic, buf);
-
+  mqtt_client.publish_message(publish_topic, buf);
   delay(5000);
 }

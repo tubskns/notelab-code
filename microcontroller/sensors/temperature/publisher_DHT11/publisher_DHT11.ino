@@ -19,17 +19,8 @@ MqttClient mqtt_client(mqtt_broker_ip, mqtt_broker_port);
 #define DHTTYPE DHT11 // DHT type
 DHT dht(DHTPIN, DHT11); // instantiate DHT object
 
-
-//const char* mqtt_broker_ip = "192.168.1.3"; // broker IP address
-//const int mqtt_broker_port = 1883;          // MQTT port (default :1883)
-//const char* client_id = "publisher_DHT11";
-//char* mqtt_topic = "temperature_topic";
-
-
 void setup(){
   Serial.begin(115200); // establish serial communication at baud rate 115200
-  //connect_to_wifi(ssid_wifi, pass_wifi);
-  //initialize_client(mqtt_broker_ip, mqtt_broker_port);
   wifi_client.connect();
   mqtt_client.connect(client_id);
   dht.begin(); // initialize the sensor
@@ -67,6 +58,5 @@ void loop(){
   char buf[500];
   json_doc.toCharArray(buf, 500);
   mqtt_client.publish_message(publish_topic, buf);
-  //publish_message(mqtt_topic, buf);
   delay(5000);
 }
