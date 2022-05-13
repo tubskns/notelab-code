@@ -1,14 +1,22 @@
-#include "mqtt_client.h"
-#include "wifi_connection.h"
+#include "MqttClient.h"
+#include "WifiClient.h"
 #include <ArduinoJson.h>
 
 String ssid_wifi = "netw0";
 String pass_wifi = "password1";
+
+
 const char *mqtt_broker_ip = "192.168.1.3";
 const int mqtt_broker_port = 1883;
 const char *client_id = "subscriber_sensors";
-String topics[3] = {"motion_topic", "dist_topic", "temp_topic"};
+//String topics[3] = {"motion_topic", "dist_topic", "temp_topic"};
+const int num_subscribe_topics = 3;
+String subscribe_topics[num_subscribe_topics] = {"motion_topic", "dist_topic", "temp_topic"};
+WifiClient wifi_client(ssid_wifi, pass_wifi);
+MqttClient mqtt_client(mqtt_broker_ip, mqtt_broker_port, subscribe_topics, num_subscribe_topics);
+
 uint8_t leds[3] = {D1, D2, D3}; // green, yellow, red
+
 DynamicJsonDocument msg_doc(1024);
 float prev_temp = 0;
 int led2_state = LOW;
@@ -18,20 +26,20 @@ unsigned long prev_millis = 0;
 void setup()
 {
   Serial.begin(115200);
-  connect_to_wifi(ssid_wifi, pass_wifi);
+  wifi_client.connect();
+  mqtt_client.connect(client_id);
   for (int i = 0; i < (sizeof(leds) / sizeof(leds[0])); i++)
     pinMode(leds[i], OUTPUT);
-  initialize_client(mqtt_broker_ip, mqtt_broker_port);
 }
 
 void loop()
-{
-  check_connection(client_id, topics, (sizeof(topics) / sizeof(topics[0])));
-  String msg = get_msg();
-  String topic = get_topic();
+{ 
+  mqtt_client.check_connection(client_id);
+  String msg = mqtt_client.get_msg();
+  String topic = mqtt_client.get_topic();
   unsigned long current_millis = millis();
   deserializeJson(msg_doc, msg);
-  if (topic == topics[0])
+  if (topic == subscribe_topics[0])
   {
     bool motion = msg_doc["motion"];
     if (motion == true)
@@ -39,7 +47,7 @@ void loop()
     else
       digitalWrite(leds[0], LOW);
   }
-  else if (topic == topics[1])
+  else if (topic == subscribe_topics[1])
   {
     if (current_millis - prev_millis >= led2_interval)
     {
@@ -60,7 +68,7 @@ void loop()
       digitalWrite(leds[1], LOW);
     }
   }
-  else if (topic == topics[2])
+  else if (topic == subscribe_topics[2])
   {
     float temperature = msg_doc["temperature"];
     if (temperature != prev_temp)
@@ -74,5 +82,5 @@ void loop()
   else
   { // ignore
   }
-  reset_msg();
+  mqtt_client.reset_msg();
 }
