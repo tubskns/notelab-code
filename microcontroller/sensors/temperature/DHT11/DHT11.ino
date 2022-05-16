@@ -1,7 +1,6 @@
 #include "DHT.h" // DHT module library
 
-#define DHTPIN 0 // DHT11's data pin is connected to NodeMCU's GPIO0 (D3)
-// #define DHTPIN D5 // DHT11's data pin is connected to WeMos GPIO14 (D5)
+#define DHTPIN 3 // DHT11's data pin is connected to board's digital pin 3
 
 #define DHTTYPE DHT11 // DHT type
 DHT dht(DHTPIN, DHT11); // instantiate DHT object

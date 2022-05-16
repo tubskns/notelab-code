@@ -1,10 +1,7 @@
 #include "HCSR04.h"
 
-const int trigPin = 5; // HC-SR04's trigger pin is connected to NodeMCU's GPIO5 (D1)
-const int echoPin = 4; // HC-SR04's echo pin is connected to NodeMCU's GPIO4 (D2)
-
-//const int trigPin = 2; // HC-SR04's trigger pin is connected to WeMos GPIO2 (D4)
-//const int echoPin = 14; // HC-SR04's echo pin is connected to WeMos GPIO14 (D5)
+const int trigPin = 1; // HC-SR04's trigger pin is connected to board's digital pin 1
+const int echoPin = 2; // HC-SR04's echo pin is connected to board's digital pin 2
 
 HCSR04 hcsr04(trigPin, echoPin);
 
