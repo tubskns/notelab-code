@@ -1,20 +1,22 @@
+#include <WiFiNINA.h>
 #include "WifiClient.h"
-#include <ESP8266WiFi.h>
 
-WifiClient::WifiClient(String ssid, String pass)
+WifiClient::WifiClient(char *ssid, char *pass)
 {
-    _ssid = ssid;
-    _pass = pass;
+  _ssid = ssid;
+  _pass = pass;
 }
 
 void WifiClient::connect()
 {
-    Serial.println("Connecting to " + _ssid);
-    WiFi.begin(_ssid, _pass);
-    while (WiFi.status() != WL_CONNECTED)
-    {
-        Serial.print(".");
-        delay(500);
-    }
-    Serial.println(" connected to WiFi: " + WiFi.localIP().toString());
+  WiFiClient wifiClient;
+  Serial.print("Connecting to WPA SSID [" + String(_ssid) + "]...");
+  while (WiFi.begin(_ssid, _pass) != WL_CONNECTED)
+  {
+    Serial.print(".");
+    delay(500);
+  }
+  IPAddress ip = WiFi.localIP();
+  Serial.print(" done, IP: ");
+  Serial.println(ip);
 }
