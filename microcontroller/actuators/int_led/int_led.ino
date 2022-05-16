@@ -1,5 +1,4 @@
-#define LED D0 // NodeMCU's builtin LED is at pin GPIO16 (D0)
-// #define LED BUILTIN_LED // WeMos's builtin LED is at pin GPIO1
+#define LED D13 // Arduino UNO WiFi Rev2's builtin LED is at pin GPIO16 (D13)
 
 void setup()
 {
