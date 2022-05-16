@@ -1,7 +1,7 @@
 #include "WifiClient.h"
 
-String ssid = "netw1"; 
-String pass = "password1";
+ssid[] ssid = "netw1"; 
+ssid[] pass = "password1";
 WifiClient wifi_client(ssid, pass);
 
 void setup()

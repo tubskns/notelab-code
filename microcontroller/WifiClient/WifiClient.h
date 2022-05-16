@@ -1,11 +1,10 @@
-#include <Arduino.h>
-
 class WifiClient
 {
 public:
-    WifiClient(String ssid, String pass);
+    WifiClient(char *ssid, char *pass);
     void connect();
+
 private:
-    String _ssid;
-    String _pass;
+    char *_ssid;
+    char *_pass;
 };
