@@ -5,17 +5,14 @@
 String ssid_wifi = "netw0";
 String pass_wifi = "password1";
 
-
 const char *mqtt_broker_ip = "192.168.1.3";
 const int mqtt_broker_port = 1883;
 const char *client_id = "subscriber_sensors";
-//String topics[3] = {"motion_topic", "dist_topic", "temp_topic"};
 const int num_subscribe_topics = 3;
 String subscribe_topics[num_subscribe_topics] = {"motion_topic", "dist_topic", "temp_topic"};
+uint8_t leds[3] = {D1, D2, D3}; // green, yellow, red
 WifiClient wifi_client(ssid_wifi, pass_wifi);
 MqttClient mqtt_client(mqtt_broker_ip, mqtt_broker_port, subscribe_topics, num_subscribe_topics);
-
-uint8_t leds[3] = {D1, D2, D3}; // green, yellow, red
 
 DynamicJsonDocument msg_doc(1024);
 float prev_temp = 0;
@@ -43,7 +40,7 @@ void loop()
   {
     bool motion = msg_doc["motion"];
     if (motion == true)
-      digitalWrite(leds[0], HIGH);
+      digitalWrite(leds[0], HIGH);s
     else
       digitalWrite(leds[0], LOW);
   }
