@@ -1,4 +1,4 @@
-#define LED D13 // Arduino UNO WiFi Rev2's builtin LED is at pin GPIO16 (D13)
+#define LED D13 // Arduino UNO WiFi Rev2's builtin LED is at digital pin 13
 
 void setup()
 {
