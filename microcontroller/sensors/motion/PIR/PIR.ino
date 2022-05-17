@@ -3,8 +3,6 @@
 const int pirSensor = 7; // PIR's pin is connected to to board's digital pin 7
 PIR pir(pirSensor);
 
-/ HC-SR04's trigger pin is connected to board's digital pin 1
-
 void setup()
 {
   Serial.begin(115200);
