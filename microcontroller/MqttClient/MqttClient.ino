@@ -1,9 +1,8 @@
-
 #include "MqttClient.h"
 #include "WifiClient.h"
 
-String ssid_wifi = "netw0";
-String pass_wifi = "password1";
+char *ssid_wifi = "netw0";
+char *pass_wifi = "password1";
 
 const char *mqtt_broker_ip = "192.168.1.3";
 const int mqtt_broker_port = 1883;

@@ -1,6 +1,6 @@
 #include "MqttClient.h"
 #include <MQTT.h>
-#include <ESP8266WiFi.h>
+#include <WiFiNINA.h>
 
 WiFiClient _wifi_client;
 String _msg;
