@@ -1,4 +1,4 @@
-#define LED D1 // external LED is connected to board's digital pin 1
+#define LED 1 // external LED is connected to board's digital pin 1
 
 void setup()
 {
