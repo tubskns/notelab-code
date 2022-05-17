@@ -2,11 +2,10 @@
 #include "WifiClient.h"
 #include <ArduinoJson.h>
 
-#define LED D1 //green external LED connected to NodeMCU's pin GPIO5 (D1)
-//#define LED 13 //external LED connected to WeMos's pin GPIO14
+#define LED 1 // external LED is connected to board's digital pin 1
 
-String ssid_wifi = "netw0";     // student's network SSID
-String pass_wifi = "password1"; // student's network password
+char *ssid_wifi = "netw0";     
+char *pass_wifi = "password1";
 
 const char *mqtt_broker_ip = "192.168.1.3";
 const int mqtt_broker_port = 1883;

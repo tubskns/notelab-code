@@ -3,8 +3,8 @@
 #include "DHT.h" // DHT module library
 #include <ArduinoJson.h>
 
-String ssid_wifi = "netw0";     
-String pass_wifi = "password1";
+char *ssid_wifi = "netw0";     
+char *pass_wifi = "password1";
 
 const char *mqtt_broker_ip = "192.168.1.3";
 const int mqtt_broker_port = 1883;
@@ -13,8 +13,7 @@ const char *publish_topic = "temperature_topic";
 WifiClient wifi_client(ssid_wifi, pass_wifi);
 MqttClient mqtt_client(mqtt_broker_ip, mqtt_broker_port);
 
-#define DHTPIN 0 // DHT11's data pin is connected to NodeMCU's GPIO0 (D3)
-// #define DHTPIN D5 // DHT11's data pin is connected to WeMos GPIO14 (D5)
+#define DHTPIN 3 // DHT11's data pin is connected to board's digital pin 3
 
 #define DHTTYPE DHT11 // DHT type
 DHT dht(DHTPIN, DHT11); // instantiate DHT object

@@ -3,8 +3,8 @@
 #include "PIR.h"
 #include <ArduinoJson.h>
 
-String ssid_wifi = "netw0";     // student's network SSID
-String pass_wifi = "password1"; // student's network password
+char *ssid_wifi = "netw0";     // student's network SSID
+char *pass_wifi = "password1"; // student's network password
 
 const char *mqtt_broker_ip = "192.168.1.3";
 const int mqtt_broker_port = 1883;
@@ -13,7 +13,7 @@ const char *publish_topic = "motion_topic";
 WifiClient wifi_client(ssid_wifi, pass_wifi);
 MqttClient mqtt_client(mqtt_broker_ip, mqtt_broker_port);
 
-const int pirSensor = 13; // PIR's pin is connected to NodeMCU's GPIO13 (D7) or WeMos GPIO13 (D7)
+const int pirSensor = 7; // PIR's pin is connected to to board's digital pin 7
 PIR pir(pirSensor);
 
 void setup()

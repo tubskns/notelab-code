@@ -3,8 +3,8 @@
 #include "HCSR04.h"
 #include <ArduinoJson.h>
 
-String ssid_wifi = "netw0";     // student's network SSID
-String pass_wifi = "password1"; // student's network password
+char *ssid_wifi = "netw0";     // student's network SSID
+char *pass_wifi = "password1"; // student's network password
 
 const char *mqtt_broker_ip = "192.168.1.3";
 const int mqtt_broker_port = 1883;
@@ -13,11 +13,8 @@ const char *publish_topic = "distance_topic";
 WifiClient wifi_client(ssid_wifi, pass_wifi);
 MqttClient mqtt_client(mqtt_broker_ip, mqtt_broker_port);
 
-const int trigPin = 5; // HC-SR04's trigger pin is connected to NodeMCU's GPIO5 (D1)
-const int echoPin = 4; // HC-SR04's echo pin is connected to NodeMCU's GPIO4 (D2)
-
-//const int trigPin = 2; // HC-SR04's trigger pin is connected to WeMos GPIO2 (D4)
-//const int echoPin = 14; // HC-SR04's echo pin is connected to WeMos GPIO14 (D5)
+const int trigPin = 1; // HC-SR04's trigger pin is connected to board's digital pin 1
+const int echoPin = 2; // HC-SR04's echo pin is connected to board's digital pin 2
 
 HCSR04 hcsr04(trigPin, echoPin);
 
