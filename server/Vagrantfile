@@ -1,0 +1,33 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+require_relative 'vms_param.rb'
+include Variables
+
+$script = <<-'SCRIPT'
+sudo apt-get update && sudo apt-get install curl jq -y
+curl -sSLf https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3 | bash
+./deploy_helper.sh -rel
+SCRIPT
+
+Vagrant.configure("2") do |config|
+  (1..$NUM_VMS).each do |i|
+    config.vm.define "worker#{i}" do |worker|
+      worker.vm.box = $IMAGE
+      worker.vm.hostname = "worker#{i}"
+      worker.vm.provider "libvirt" do |vb|
+        vb.memory = "#{$MEM}"
+        vb.cpus = "#{$CPU}"
+      end
+      (0..$GUEST_PORTS.length()-1).each do |p|
+        config.vm.network :forwarded_port, guest: $GUEST_PORTS[p], host: $HOST_PORTS[p+(3*(i-1))] 
+      end
+      files = ["notelab.yml", "utils.sh", "deploy_helper.sh"]
+      files.each do |f|
+        config.vm.provision "file", source: f, destination: f
+      end
+      config.vm.provision "shell", inline: $script, privileged: false
+    end
+  end
+end
+  
