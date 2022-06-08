@@ -7,7 +7,7 @@ include Variables
 $script = <<-'SCRIPT'
 sudo apt-get update && sudo apt-get install curl jq -y
 curl -sSLf https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3 | bash
-./deploy_helper.sh -rel
+# ./deploy_helper.sh -rel
 SCRIPT
 
 Vagrant.configure("2") do |config|

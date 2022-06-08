@@ -35,12 +35,13 @@ OPTIONS:
 -r \t deploys rabbitmq.
 -e \t deploys elasticsearch.
 -l \t deploys logstash.
+-u \t uninstalls everything.
 '
 rabbitmq=false
 elasticsearch=false
 logstash=false
 
-while getopts "rel" opt; do
+while getopts "relu" opt; do
     case $opt in
     r)
         rabbitmq=true
@@ -50,6 +51,10 @@ while getopts "rel" opt; do
         ;;
     l)
         logstash=true
+        ;;
+    u) 
+        /usr/local/bin/k3s-uninstall.sh
+        exit 0
         ;;
     *)
         echo -e "Invalid option $1 \n\n${usage}"
