@@ -1,6 +1,7 @@
 #include "MqttClient.h"
 #include "WifiClient.h"
 #include <ArduinoJson.h>
+#include <LiquidCrystal.h>
 
 char *ssid_wifi = "netw0";
 char *pass_wifi = "password1";
@@ -19,6 +20,11 @@ float prev_temp = 0;
 int led2_state = LOW;
 long led2_interval = 1000000;
 unsigned long prev_millis = 0;
+byte lcd_cols = 16; 
+byte lcd_line = 2; 
+int lcd_contrast = 100;
+int lcd_pin = 6;
+LiquidCrystal lcd(12, 11, 5, 4, 3, 2);
 
 void setup()
 {
@@ -27,6 +33,9 @@ void setup()
   mqtt_client.connect(client_id);
   for (int i = 0; i < (sizeof(leds) / sizeof(leds[0])); i++)
     pinMode(leds[i], OUTPUT);
+  analogWrite(lcd_pin, lcd_contrast);
+  lcd.begin(lcd_cols, lcd_line);
+  delay(100);
 }
 
 void loop()
@@ -64,6 +73,11 @@ void loop()
       led2_interval = 1000000;
       digitalWrite(leds[1], LOW);
     }
+    lcd.setCursor(0, 1); // second row
+    lcd.print("Dist. ");
+    String distance_str = String(distance, 1);
+    lcd.print(distance_str);
+    lcd.print(" cm");
   }
   else if (topic == subscribe_topics[2])
   {
@@ -75,6 +89,11 @@ void loop()
     }
     else
       digitalWrite(leds[2], LOW);
+    lcd.setCursor(0, 0); // first row
+    lcd.print("Temp. ");
+    String temperature_str = String(temperature, 1);
+    lcd.print(temperature_str);
+    lcd.print((char) 223); // celsius char
   }
   else
   { // ignore
