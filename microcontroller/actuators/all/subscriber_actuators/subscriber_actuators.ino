@@ -48,10 +48,16 @@ void loop()
   if (topic == subscribe_topics[0])
   {
     bool motion = msg_doc["motion"];
-    if (motion == true)
+    if (motion == true){
       digitalWrite(leds[0], HIGH);
-    else
+      lcd.setCursor(13, 0); 
+      lcd.print("ON");
+    }
+    else{
       digitalWrite(leds[0], LOW);
+      lcd.setCursor(13, 0); 
+      lcd.print("OFF");
+    }
   }
   else if (topic == subscribe_topics[1])
   {
