@@ -28,7 +28,7 @@ LiquidCrystal lcd(12, 11, 5, 4, 3, 2);
 
 void setup()
 {
-  Serial.begin(115200);
+  Serial.begin(9600); //  Serial.begin(115200);
   wifi_client.connect();
   mqtt_client.connect(client_id);
   for (int i = 0; i < (sizeof(leds) / sizeof(leds[0])); i++)

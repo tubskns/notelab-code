@@ -7,12 +7,12 @@ HCSR04 hcsr04(trigPin, echoPin);
 
 void setup()
 {
-    Serial.begin(115200); // establish serial communication at baud rate 115200
+    Serial.begin(9600); // Serial.begin(115200);
 }
 
 void loop()
 {
-    int distance = hcsr04.calculate_distance();
+    float distance = hcsr04.calculate_distance();
     String distance_str = String(distance); // convert int to string
     Serial.print("Distance: " + distance_str + " cm\n");
     delay(1000);

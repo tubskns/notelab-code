@@ -26,7 +26,7 @@ PIR pir(7); // specify PIR's pin
 DynamicJsonDocument temp_doc(1024), dist_doc(1024), motion_doc(1024);
 
 void setup(){
-  Serial.begin(115200);
+  Serial.begin(9600); // Serial.begin(115200);
   wifi_client.connect();
   mqtt_client.connect(client_id);
   dht.begin(); // initialize the sensor

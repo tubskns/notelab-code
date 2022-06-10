@@ -10,7 +10,7 @@ HCSR04::HCSR04(int trigPin, int echoPin)
   _echoPin = echoPin;
 }
 
-int HCSR04::calculate_distance()
+float HCSR04::calculate_distance()
 {
   // write a pulse: when trigger pin is set to HIGH, stary transmitting
   digitalWrite(_trigPin, LOW); // clear the trigger pin
@@ -20,7 +20,7 @@ int HCSR04::calculate_distance()
   digitalWrite(_trigPin, LOW);
 
   long duration = pulseIn(_echoPin, HIGH); // time elapsed for sending and receiving pulse wave
-  int distance = duration * 0.034 / 2;    // calculate distance in cm
+  float distance = duration * 0.034 / 2;    // calculate distance in cm
 
   return distance; //return distance
 }
