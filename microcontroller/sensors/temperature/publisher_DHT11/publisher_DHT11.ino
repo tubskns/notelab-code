@@ -19,7 +19,7 @@ MqttClient mqtt_client(mqtt_broker_ip, mqtt_broker_port);
 DHT dht(DHTPIN, DHT11); // instantiate DHT object
 
 void setup(){
-  Serial.begin(115200); // establish serial communication at baud rate 115200
+  Serial.begin(9600); // Serial.begin(115200);
   wifi_client.connect();
   mqtt_client.connect(client_id);
   dht.begin(); // initialize the sensor
