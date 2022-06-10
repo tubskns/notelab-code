@@ -11,7 +11,7 @@ const int mqtt_broker_port = 1883;
 const char *client_id = "subscriber_sensors";
 const int num_subscribe_topics = 3;
 String subscribe_topics[num_subscribe_topics] = {"motion_topic", "dist_topic", "temp_topic"};
-uint8_t leds[3] = {1, 2, 3}; // green, yellow, red
+uint8_t leds[3] = {1, 8, 9}; // green, yellow, red
 WifiClient wifi_client(ssid_wifi, pass_wifi);
 MqttClient mqtt_client(mqtt_broker_ip, mqtt_broker_port, subscribe_topics, num_subscribe_topics);
 
@@ -51,7 +51,7 @@ void loop()
     if (motion == true){
       digitalWrite(leds[0], HIGH);
       lcd.setCursor(13, 0); 
-      lcd.print("ON");
+      lcd.print("ON ");
     }
     else{
       digitalWrite(leds[0], LOW);
@@ -71,13 +71,14 @@ void loop()
       digitalWrite(leds[1], led2_state);
     }
     float distance = msg_doc["distance"];
-    if (distance <= 5.0)
+    if (distance <= 3.0)
       led2_interval = 500;
-    else if (distance < 5.0 && distance < 10)
+    else if (distance < 3.0 && distance < 15)
       led2_interval = 2000;
     else {
       led2_interval = 1000000;
       digitalWrite(leds[1], LOW);
+      distance = 0
     }
     lcd.setCursor(0, 1); // second row
     lcd.print("Dist. ");
