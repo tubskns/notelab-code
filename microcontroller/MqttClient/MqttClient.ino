@@ -16,7 +16,7 @@ MqttClient mqtt_client(mqtt_broker_ip, mqtt_broker_port, subscribe_topics, num_s
 
 void setup()
 {
-    Serial.begin(115200);
+    Serial.begin(9600);  // Serial.begin(115200);
     wifi_client.connect();
     mqtt_client.connect(client_id);
     mqtt_client.publish_message(publish_topic, publish_message);

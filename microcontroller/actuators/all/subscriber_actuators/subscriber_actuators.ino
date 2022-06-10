@@ -11,7 +11,7 @@ const int mqtt_broker_port = 1883;
 const char *client_id = "subscriber_sensors";
 const int num_subscribe_topics = 3;
 String subscribe_topics[num_subscribe_topics] = {"motion_topic", "dist_topic", "temp_topic"};
-uint8_t leds[3] = {1, 2, 3}; // green, yellow, red
+uint8_t leds[3] = {1, 8, 9}; // green, yellow, red
 WifiClient wifi_client(ssid_wifi, pass_wifi);
 MqttClient mqtt_client(mqtt_broker_ip, mqtt_broker_port, subscribe_topics, num_subscribe_topics);
 
@@ -28,7 +28,7 @@ LiquidCrystal lcd(12, 11, 5, 4, 3, 2);
 
 void setup()
 {
-  Serial.begin(115200);
+  Serial.begin(9600); //  Serial.begin(115200);
   wifi_client.connect();
   mqtt_client.connect(client_id);
   for (int i = 0; i < (sizeof(leds) / sizeof(leds[0])); i++)

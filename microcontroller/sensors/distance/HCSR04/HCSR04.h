@@ -3,7 +3,7 @@ class HCSR04
 {
     public:
         HCSR04(int trigPin, int echoPin);
-        int calculate_distance();
+        float calculate_distance();
 
     private:
         int _trigPin;
