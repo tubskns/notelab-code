@@ -7,7 +7,7 @@ DHT dht(DHTPIN, DHT11); // instantiate DHT object
 
 void setup()
 {
-  Serial.begin(115200); // establish serial communication at baud rate 115200
+    Serial.begin(9600); // Serial.begin(115200);
   dht.begin(); // initialize the sensor
 }
 
