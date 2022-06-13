@@ -39,7 +39,7 @@ void loop(){
     temp_doc["id"] = client_id;
     temp_doc["temperature"] = temperature;
   } 
-  int distance = hcsr04.calculate_distance();
+  float distance = hcsr04.calculate_distance();
   dist_doc["id"] = client_id, dist_doc["distance"] = distance;
   bool is_motion = pir.detect_motion();
   motion_doc["id"] = client_id, motion_doc["motion"] = is_motion;
