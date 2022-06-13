@@ -3,7 +3,7 @@
 #include <ArduinoJson.h>
 #include <LiquidCrystal.h>
 
-#define LED 1 // external LED is connected to board's digital pin 1
+#define LED 9 // external LED is connected to board's digital pin 9
 
 char *ssid_wifi = "netw0";     
 char *pass_wifi = "password1";
@@ -26,9 +26,11 @@ int lcd_pin = 6;
 LiquidCrystal lcd(12, 11, 5, 4, 3, 2);
 
 void setup(){
-  Serial.begin(115200); // establish serial communication at baud rate 115200
+  Serial.begin(9600); // establish serial communication at baud rate 115200
   wifi_client.connect();
   mqtt_client.connect(client_id);
+  analogWrite(lcd_pin, lcd_contrast);
+  lcd.begin(lcd_cols, lcd_line);
   pinMode(LED, OUTPUT); // initialize LED as an output
 }
 
