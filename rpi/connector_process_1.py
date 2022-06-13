@@ -25,7 +25,7 @@ topics_mosquitto = [
 ]
 
 # global vars
-is_activated = False
+IS_ACTIVATED = False
 activation_interval = 5
 start_time = 100000000
 temp_values = []
@@ -60,8 +60,8 @@ while True:
         msg = json.loads(str(mqtt_client.message.payload.decode("utf-8")))
         if topic == topic_motion:  # check to activate workflow based on motion
             if msg["motion"]:
-                if not is_activated:  # activate circuit
-                    is_activated = True
+                if not IS_ACTIVATED:  # activate circuit
+                    IS_ACTIVATED = True
                     start_time = time.time()
                     amqp_channel.basic_publish(
                         exchange=exchange_rabbit,
@@ -76,7 +76,14 @@ while True:
                             routing_key=rkey_rabbit_motion,
                             body=json.dumps(msg),
                         )
-                        is_activated = False
+                        IS_ACTIVATED = False
+            else:
+                if not IS_ACTIVATED:
+                    amqp_channel.basic_publish(
+                        exchange=exchange_rabbit,
+                        routing_key=rkey_rabbit_motion,
+                        body=json.dumps(msg),
+                    )
         elif topic == topic_temp:  # calculate avg temp of x values and send
             if len(temp_values) < 24:
                 temp_values.append(msg["temperature"])
@@ -90,10 +97,18 @@ while True:
                 )
                 temp_values = []
         elif topic == topic_dist:
-            if is_activated:
+            if IS_ACTIVATED:
                 amqp_channel.basic_publish(
                     exchange=exchange_rabbit,
                     routing_key=rkey_rabbit_dist,
                     body=json.dumps(msg),
                 )
+            else:
+                msg["distance"] = 0.0
+                amqp_channel.basic_publish(
+                    exchange=exchange_rabbit,
+                    routing_key=rkey_rabbit_dist,
+                    body=json.dumps(msg),
+                )
+
         mqtt_client.message = None  # reset message
