@@ -28,7 +28,7 @@ void setup()
 void loop()
 {
   mqtt_client.check_connection(client_id);
-  int distance = hcsr04.calculate_distance();
+  float distance = hcsr04.calculate_distance();
   String distance_str = String(distance); // convert int to string
   Serial.print("Distance: " + distance_str + " cm\n");
   delay(1000);
