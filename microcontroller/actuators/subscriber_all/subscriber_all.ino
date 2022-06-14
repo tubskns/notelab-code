@@ -73,7 +73,7 @@ void loop()
     float distance = msg_doc["distance"];
     if (distance <= 3.0)
       led2_interval = 500;
-    else if (distance < 3.0 && distance < 15)
+    else if (distance > 3.0 && distance < 15)
       led2_interval = 2000;
     else {
       led2_interval = 1000000;
