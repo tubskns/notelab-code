@@ -1,7 +1,8 @@
 #include "MqttClient.h"
 #include "WifiClient.h"
 #include <ArduinoJson.h>
-#include <LiquidCrystal.h>
+#include <Wire.h>
+#include <LiquidCrystal_I2C.h>
 
 #define LED 9 // external LED is connected to board's digital pin 9
 
@@ -19,19 +20,15 @@ MqttClient mqtt_client(mqtt_broker_ip, mqtt_broker_port, subscribe_topics, num_s
 float temperature = 0;
 float humidity = 0;
 float blink_delay = 100;
-byte lcd_cols = 16; 
-byte lcd_line = 2; 
-int lcd_contrast = 100;
-int lcd_pin = 6;
-LiquidCrystal lcd(12, 11, 5, 4, 3, 2);
+LiquidCrystal_I2C lcd(0x27,16,2);
 
 void setup(){
   Serial.begin(9600); // establish serial communication at baud rate 115200
   wifi_client.connect();
   mqtt_client.connect(client_id);
-  analogWrite(lcd_pin, lcd_contrast);
-  lcd.begin(lcd_cols, lcd_line);
   pinMode(LED, OUTPUT); // initialize LED as an output
+  lcd.init();
+  lcd.backlight();
 }
 
 void loop(){

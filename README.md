@@ -17,8 +17,7 @@
 - Arduino IDE ([tutorial](https://www.arduino.cc/en/Guide/Linux))
 
 ### Libraries
-- LcdBarGraph - v2.0.1 ([source](https://github.com/prampec/LcdBarGraph?utm_source=platformio&utm_medium=piohome))
-- LiquidCrystal - v1.0.7 ([source](https://www.arduino.cc/reference/en/libraries/liquidcrystal/))
+- LiquidCrystal_I2C - v1.1.4 ([source](https://github.com/johnrickman/LiquidCrystal_I2C))
 - ...
 
 

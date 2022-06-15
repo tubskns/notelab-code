@@ -1,7 +1,8 @@
 #include "MqttClient.h"
 #include "WifiClient.h"
 #include <ArduinoJson.h>
-#include <LiquidCrystal.h>
+#include <Wire.h>
+#include <LiquidCrystal_I2C.h>
 
 char *ssid_wifi = "netw0";
 char *pass_wifi = "password1";
@@ -20,11 +21,7 @@ float prev_temp = 0;
 int led2_state = LOW;
 long led2_interval = 1000000;
 unsigned long prev_millis = 0;
-byte lcd_cols = 16; 
-byte lcd_line = 2; 
-int lcd_contrast = 100;
-int lcd_pin = 6;
-LiquidCrystal lcd(12, 11, 5, 4, 3, 2);
+LiquidCrystal_I2C lcd(0x27,16,2);
 
 void setup()
 {
@@ -33,9 +30,8 @@ void setup()
   mqtt_client.connect(client_id);
   for (int i = 0; i < (sizeof(leds) / sizeof(leds[0])); i++)
     pinMode(leds[i], OUTPUT);
-  analogWrite(lcd_pin, lcd_contrast);
-  lcd.begin(lcd_cols, lcd_line);
-  delay(100);
+  lcd.init();
+  lcd.backlight();
 }
 
 void loop()
