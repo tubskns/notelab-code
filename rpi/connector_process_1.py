@@ -6,8 +6,8 @@ import logging
 # rabbit
 ip_rabbit = "192.168.1.7"
 exchange_rabbit = "amq.topic"
-rkey_rabbit_temp = "notelab"
-queue_rabbit_temp = "notelab"
+rkey_rabbit_temp = "temperature"
+queue_rabbit_temp = "temperature"
 rkey_rabbit_dist = "dist_rabbit"
 queue_rabbit_dist = "dist_rabbit"
 rkey_rabbit_motion = "motion_rabbit"
