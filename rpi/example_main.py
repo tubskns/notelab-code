@@ -1,10 +1,21 @@
 import example_module as em
 
-my_sum = em.calc_sum([1, 4, 5, 3])
+def check_sign(value):
+    if value > 0:
+        print("Calculated value", value, "is positive")
+    elif value == 0:
+        print("Calculated value", value, "is equal to zero")
+    else:
+        print("Calculated value", value, "is negative")
 
-if my_sum > 0:
-    print("Calculated sum", my_sum, "is positive")
-elif sum == 0:
-    print("Calculated sum", my_sum, "is equal to zero")
-else:
-    print("Calculated sum", my_sum, "is negative")
+###### first task
+check_sign(-5)
+
+###### second task
+value = em.calc_sum([2, -5, 8, -13])
+check_sign(value)
+
+
+
+
+    
