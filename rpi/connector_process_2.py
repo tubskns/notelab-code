@@ -35,7 +35,7 @@ def on_dist_message(channel, method, properties, msg):
 
 # elasticsearch
 url_elastic = "http://192.168.1.7:9200"
-index_elastic = "notelab"
+index_elastic = "temperature"
 
 # rabbitmq
 ip_rabbit = "192.168.1.7"
