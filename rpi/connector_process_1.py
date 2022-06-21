@@ -48,11 +48,13 @@ while True:
                 logging.debug("Activation interval is over")
                 IS_ACTIVATED = False
                 logging.debug("STOPPING collection of distance...")
-                msg["motion"] = False
-                amqp_ch.basic_publish(ex_rabbit, rkey_rabbit_motion, json.dumps(msg))
+                msg_motion = {}
+                msg_motion["motion"] = False
+                amqp_ch.basic_publish(ex_rabbit, rkey_rabbit_motion, json.dumps(msg_motion))
                 logging.debug("RESETTING distance to 0... ")
-                msg["distance"] = 0.0
-                amqp_ch.basic_publish(ex_rabbit, rkey_rabbit_dist, json.dumps(msg))
+                msg_dist = {}
+                msg_dist["distance"] = 0.0
+                amqp_ch.basic_publish(ex_rabbit, rkey_rabbit_dist, json.dumps(msg_dist))
         if topic == topic_motion:
             if msg["motion"] and IS_ACTIVATED == False:
                 logging.debug("STARTING collection of distance...")
