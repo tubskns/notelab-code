@@ -33,7 +33,7 @@ def on_dist_message(channel, method, properties, msg):
 
 
 url_elastic = "http://192.168.1.7:9200"
-index_elastic = "notelab"
+index_elastic = "temperature"
 
 ip_rabbit = "192.168.1.7"
 exchange_rabbit = "amq.topic"
