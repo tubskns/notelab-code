@@ -1,22 +1,17 @@
-#include <LiquidCrystal.h>
+#include <Wire.h>
+#include <LiquidCrystal_I2C.h>
 
-byte lcd_cols = 16; // number of columns in the LCD
-byte lcd_line = 2; // number of line in the LCD
-int lcd_contrast = 100;
-int lcd_pin = 6;
-LiquidCrystal lcd(12, 11, 5, 4, 3, 2);
+LiquidCrystal_I2C lcd(0x27,16,2);
 
-void setup()
-{
-   analogWrite(lcd_pin, lcd_contrast);
-   lcd.begin(lcd_cols, lcd_line); // set up the LCD's number of columns and rows:
-   delay(100);
-   lcd.setCursor(0, 0); // first row
-   lcd.print("Test message");
-   lcd.setCursor(0, 1); // second row
-   lcd.print("from NoteLab");
+void setup() {
+ lcd.init();
+ lcd.backlight();
+ lcd.setCursor(0,0);
+ lcd.print("Test message");
+ lcd.setCursor(0,1);
+ lcd.print("from NoteLab");
 }
-void loop()
-{
+
+void loop() {
 
 }
