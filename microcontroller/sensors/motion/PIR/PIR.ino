@@ -1,6 +1,6 @@
 #include "PIR.h"
 
-const int pirSensor = 7; // PIR's pin is connected to to board's digital pin 7
+const int pirSensor = 7; // PIR's pin is connected to board's digital pin 7
 PIR pir(pirSensor);
 
 void setup()

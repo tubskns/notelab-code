@@ -12,7 +12,7 @@ HCSR04::HCSR04(int trigPin, int echoPin)
 
 float HCSR04::calculate_distance()
 {
-  // write a pulse: when trigger pin is set to HIGH, stary transmitting
+  // write a pulse: when trigger pin is set to HIGH, start transmitting
   digitalWrite(_trigPin, LOW); // clear the trigger pin
   delayMicroseconds(10);
   digitalWrite(_trigPin, HIGH); //set the trigger pin to HIGH for 10 ms
