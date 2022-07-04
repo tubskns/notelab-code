@@ -20,13 +20,13 @@ def on_amqp_message(channel, method, properties, msg):
         mqttc.publish(actuator2_topic_mosquitto, payload_rabbit)
 
 
-url_elastic = "http://192.168.1.7:9200"
+url_elastic = "http://SERVER_IP:9200"
 index_elastic = "notelab"
-ip_rabbit = "192.168.1.3"
+ip_rabbit = "MQTT_BROKER_IP"
 exchange_rabbit = "amq.topic"
 r_key_rabbit = "notelab"
 queue_rabbit = "notelab_queue"
-ip_mosquitto = "192.168.1.3"
+ip_mosquitto = "RaspberryPi_IP"
 actuator1_topic_mosquitto = "test_topic_1"
 actuator2_topic_mosquitto = "test_topic_2"
 

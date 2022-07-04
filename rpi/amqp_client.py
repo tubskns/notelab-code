@@ -31,7 +31,7 @@ if __name__ == "__main__":
         format="%(asctime)s | %(name)s | %(levelname)s | %(message)s",
         level=logging.DEBUG,
     )
-    ip = "192.168.1.7"
+    ip = "SERVER_IP"
     port = 5672
     user = "user"
     passw = "password"

@@ -7,7 +7,7 @@ DHT dht(DHTPIN, DHT11); // instantiate DHT object
 
 void setup()
 {
-    Serial.begin(9600);
+  Serial.begin(9600);
   dht.begin(); // initialize the sensor
 }
 

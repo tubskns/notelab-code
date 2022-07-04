@@ -9,7 +9,7 @@
 char *ssid_wifi = "netw0";     
 char *pass_wifi = "password1";
 
-const char *mqtt_broker_ip = "192.168.1.3";
+const char *mqtt_broker_ip = "MQTT_BROKER_IP";
 const int mqtt_broker_port = 1883;
 const char *client_id = "subscriber_DHT11";
 const int num_subscribe_topics = 1;

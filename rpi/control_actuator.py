@@ -32,17 +32,17 @@ def on_dist_message(channel, method, properties, msg):
                         mqttc.publish(temp_led_topic, hit_source)
 
 
-url_elastic = "http://192.168.1.7:9200"
+url_elastic = "http://SERVER_IP:9200"
 index_elastic = "temperature"
 
-ip_rabbit = "192.168.1.7"
+ip_rabbit = "SERVER_IP"
 exchange_rabbit = "amq.topic"
 dist_r_key_rabbit = "dist_rabbit"
 dist_queue_rabbit = "dist_rabbit"
 motion_r_key_rabbit = "motion_rabbit"
 motion_queue_rabbit = "motion_rabbit"
 
-ip_mosquitto = "192.168.1.3"
+ip_mosquitto = "MQTT_BROKER_IP"
 motion_led_topic = "motion_led_topic"
 temp_led_topic = "temp_led_topic"
 dist_led_topic = "dist_led_topic"
