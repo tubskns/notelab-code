@@ -5,7 +5,7 @@ PIR pir(pirSensor);
 
 void setup()
 {
-  Serial.begin(9600); // Serial.begin(115200);
+  Serial.begin(9600);
 }
 
 void loop()
