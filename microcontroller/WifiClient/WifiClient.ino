@@ -6,7 +6,7 @@ WifiClient wifi_client(ssid, pass);
 
 void setup()
 {
-  Serial.begin(9600); // Serial.begin(115200);
+  Serial.begin(9600); 
   wifi_client.connect();
 }
 

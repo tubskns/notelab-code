@@ -23,7 +23,7 @@ float blink_delay = 100;
 LiquidCrystal_I2C lcd(0x27,16,2);
 
 void setup(){
-  Serial.begin(9600); // establish serial communication at baud rate 115200
+  Serial.begin(9600); 
   wifi_client.connect();
   mqtt_client.connect(client_id);
   pinMode(LED, OUTPUT); // initialize LED as an output
