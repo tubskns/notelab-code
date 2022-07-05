@@ -14,7 +14,7 @@
 - Arduino firmware ([source](https://github.com/arduino/nina-fw)), firmware updater ([tutorial](https://docs.arduino.cc/tutorials/generic/firmware-updater))
   
 ### Libraries
-- DHT11 lib v1.4.3 ([source]({https://github.com/adafruit/DHT-sensor-library))
+- DHT11 lib v1.4.3 ([source](https://github.com/adafruit/DHT-sensor-library))
 - LiquidCrystal_I2C lib v1.1.2 ([source](https://github.com/johnrickman/LiquidCrystal_I2C))
 - WiFiNINA lib v1.8.13 ([source](https://github.com/arduino-libraries/WiFiNINA))
 - MQTT lib v2.5.0 ([source](https://github.com/256dpi/arduino-mqtt))
