@@ -12,13 +12,13 @@ logstashPipeline:
       password => "password"
       exchange => "amq.topic"
       durable => true
-      queue => "notelab"
+      queue => "temperature"
     }
   }
   output {
     elasticsearch {
       hosts => "elasticsearch-master"
       data_stream => "false"
-      index => "notelab"
+      index => "temperature"
     }
   }
