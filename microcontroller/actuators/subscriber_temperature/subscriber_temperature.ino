@@ -9,7 +9,7 @@
 char *ssid_wifi = "netw0";     
 char *pass_wifi = "password1";
 
-const char *mqtt_broker_ip = "192.168.1.3";
+const char *mqtt_broker_ip = "MQTT_BROKER_IP";
 const int mqtt_broker_port = 1883;
 const char *client_id = "subscriber_DHT11";
 const int num_subscribe_topics = 1;
@@ -23,7 +23,7 @@ float blink_delay = 100;
 LiquidCrystal_I2C lcd(0x27,16,2);
 
 void setup(){
-  Serial.begin(9600); // establish serial communication at baud rate 115200
+  Serial.begin(9600); 
   wifi_client.connect();
   mqtt_client.connect(client_id);
   pinMode(LED, OUTPUT); // initialize LED as an output

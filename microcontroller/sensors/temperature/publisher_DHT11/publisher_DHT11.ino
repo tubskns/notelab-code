@@ -6,7 +6,7 @@
 char *ssid_wifi = "netw0";     
 char *pass_wifi = "password1";
 
-const char *mqtt_broker_ip = "192.168.1.3";
+const char *mqtt_broker_ip = "MQTT_BROKER_IP";
 const int mqtt_broker_port = 1883;
 const char *client_id = "publisher_DHT11";
 const char *publish_topic = "temperature_topic";
@@ -19,7 +19,7 @@ MqttClient mqtt_client(mqtt_broker_ip, mqtt_broker_port);
 DHT dht(DHTPIN, DHT11); // instantiate DHT object
 
 void setup(){
-  Serial.begin(9600); // Serial.begin(115200);
+  Serial.begin(9600);
   wifi_client.connect();
   mqtt_client.connect(client_id);
   dht.begin(); // initialize the sensor

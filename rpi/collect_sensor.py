@@ -4,7 +4,7 @@ import json, time
 import logging
 
 
-ip_rabbit = "192.168.1.7"
+ip_rabbit = "SERVER_IP"
 ex_rabbit = "amq.topic"
 rkey_rabbit_temp = "temperature"
 queue_rabbit_temp = "temperature"
@@ -13,7 +13,7 @@ queue_rabbit_dist = "dist_rabbit"
 rkey_rabbit_motion = "motion_rabbit"
 queue_rabbit_motion = "motion_rabbit"
 
-ip_mosquitto = "192.168.1.3"
+ip_mosquitto = "MQTT_BROKER_IP"
 topic_temp = "temp_topic"
 topic_dist = "dist_topic"
 topic_motion = "motion_topic"

@@ -8,7 +8,7 @@
 char *ssid_wifi = "netw0";     
 char *pass_wifi = "password1";
 
-const char *mqtt_broker_ip = "192.168.1.3";
+const char *mqtt_broker_ip = "MQTT_BROKER_IP";
 const int mqtt_broker_port = 1883;
 const char* client_id = "publisher_sensors";
 char* temp_topic = "temp_topic";
@@ -26,7 +26,7 @@ PIR pir(7); // specify PIR's pin
 DynamicJsonDocument temp_doc(1024), dist_doc(1024), motion_doc(1024);
 
 void setup(){
-  Serial.begin(9600); // Serial.begin(115200);
+  Serial.begin(9600); 
   wifi_client.connect();
   mqtt_client.connect(client_id);
   dht.begin(); // initialize the sensor

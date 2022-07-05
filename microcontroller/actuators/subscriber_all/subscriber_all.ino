@@ -7,7 +7,7 @@
 char *ssid_wifi = "netw0";
 char *pass_wifi = "password1";
 
-const char *mqtt_broker_ip = "192.168.1.3";
+const char *mqtt_broker_ip = "MQTT_BROKER_IP";
 const int mqtt_broker_port = 1883;
 const char *client_id = "subscriber_sensors";
 const int num_subscribe_topics = 3;
@@ -25,7 +25,7 @@ LiquidCrystal_I2C lcd(0x27,16,2);
 
 void setup()
 {
-  Serial.begin(9600); //  Serial.begin(115200);
+  Serial.begin(9600); 
   wifi_client.connect();
   mqtt_client.connect(client_id);
   for (int i = 0; i < (sizeof(leds) / sizeof(leds[0])); i++)
