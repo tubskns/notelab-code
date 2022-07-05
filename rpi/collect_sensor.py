@@ -5,6 +5,9 @@ import logging
 
 
 ip_rabbit = "SERVER_IP"
+port_rabbit = 5672
+user_rabbit = "user"
+pass_rabbit = "password"
 ex_rabbit = "amq.topic"
 rkey_rabbit_temp = "temperature"
 queue_rabbit_temp = "temperature"
@@ -29,7 +32,7 @@ start_time = 100000000
 temp_values = []
 logging.basicConfig(format="%(asctime)s | %(name)s | %(levelname)s | %(message)s", level=logging.INFO)
 
-amqp_ch = amqp_client.connect_to_broker(ip_rabbit, port=5672, user="user", passw="password")
+amqp_ch = amqp_client.connect_to_broker(ip_rabbit, port=port_rabbit, user=user_rabbit, passw=pass_rabbit)
 amqp_client.create_queue(amqp_ch, ex_rabbit, rkey_rabbit_temp, queue_rabbit_temp)
 amqp_client.create_queue(amqp_ch, ex_rabbit, rkey_rabbit_dist, queue_rabbit_dist)
 amqp_client.create_queue(amqp_ch, ex_rabbit, rkey_rabbit_motion, queue_rabbit_motion)

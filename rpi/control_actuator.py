@@ -36,6 +36,9 @@ url_elastic = "http://SERVER_IP:9200"
 index_elastic = "temperature"
 
 ip_rabbit = "SERVER_IP"
+port_rabbit = 5672
+user_rabbit = "user"
+pass_rabbit = "password"
 exchange_rabbit = "amq.topic"
 dist_r_key_rabbit = "dist_rabbit"
 dist_queue_rabbit = "dist_rabbit"
@@ -53,7 +56,7 @@ logging.basicConfig(format="%(asctime)s | %(name)s | %(levelname)s | %(message)s
 mqttc = mqtt_client.connect(ip_mosquitto)
 
 amqp_client.message = None
-amqp_channel = amqp_client.connect_to_broker(ip_rabbit, port=5672, user="user", passw="password")
+amqp_channel = amqp_client.connect_to_broker(ip_rabbit, port=port_rabbit, user=user_rabbit, passw=pass_rabbit)
 amqp_client.subscribe(amqp_channel, dist_queue_rabbit, on_dist_message)
 amqp_client.subscribe(amqp_channel, motion_queue_rabbit, on_motion_message)
 try:

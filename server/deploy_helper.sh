@@ -101,18 +101,18 @@ fi
 if [[ "$rabbitmq" = true ]]; then
     log "INFO" "deploying rabbitMQ..."
     helm repo add bitnami https://charts.bitnami.com/bitnami
-    helm install rabbitmq bitnami/rabbitmq --namespace $DEV_NS --set replicaCount=1 --set auth.username=user,auth.password=password
+    helm install rabbitmq bitnami/rabbitmq --namespace $DEV_NS --version 8.31.2 --set replicaCount=1 --set auth.username=user,auth.password=password
     log "INFO" "done"
 fi
 if [ "$elasticsearch" = true ]; then
     log "INFO" "deploying elasticsearch..."
     helm repo add elastic https://Helm.elastic.co
-    helm install elasticsearch elastic/elasticsearch --namespace $DEV_NS --set replicas=1
+    helm install elasticsearch elastic/elasticsearch --namespace $DEV_NS --version 7.17.1 --set replicas=1
     log "INFO" "done"
 fi
 if [ "$logstash" = true ]; then
     log "INFO" "deploying logstash using notelab.yml file..."
-    helm install logstash-notelab elastic/logstash --namespace $DEV_NS -f notelab.yml --set replicas=1
+    helm install logstash-notelab elastic/logstash --namespace $DEV_NS --version 7.17.1 -f notelab.yml --set replicas=1
     log "INFO" "done"
 fi
 
