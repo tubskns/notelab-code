@@ -24,17 +24,17 @@ def on_amqp_message(channel, method, properties, msg):
 
 
 url_elastic = "http://SERVER_IP:9200"
-index_elastic = "notelab"
-ip_rabbit = "MQTT_BROKER_IP"
+index_elastic = "control_actuator_index"
+ip_rabbit = "SERVER_IP"
 port_rabbit = 5672
 user_rabbit = "user"
 pass_rabbit = "password"
 exchange_rabbit = "amq.topic"
-r_key_rabbit = "notelab"
-queue_rabbit = "notelab_queue"
-ip_mosquitto = "RaspberryPi_IP"
-actuator1_topic_mosquitto = "test_topic_1"
-actuator2_topic_mosquitto = "test_topic_2"
+r_key_rabbit = "control_actuator_key"
+queue_rabbit = "control_actuator_queue"
+ip_mosquitto = "MQTT_BROKER_IP"
+actuator1_topic_mosquitto = "actuator_topic_1"
+actuator2_topic_mosquitto = "actuator_topic_2"
 
 mqttc = mqtt_client.connect(ip_mosquitto) 
 
