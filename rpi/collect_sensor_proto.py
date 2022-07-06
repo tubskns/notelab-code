@@ -7,8 +7,8 @@ port_rabbit = 5672
 user_rabbit = "user"
 pass_rabbit = "password"
 exchange_rabbit = "amq.topic"
-r_key_rabbit = "notelab"
-queue_rabbit = "notelab"
+r_key_rabbit = "collect_sensor_key"
+queue_rabbit = "collect_sensor_queue"
 # mosquitto
 ip_mosquitto = "MQTT_BROKER_IP"
 topic_mosquitto = "test_topic"
