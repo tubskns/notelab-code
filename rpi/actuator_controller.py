@@ -1,4 +1,6 @@
-import mqtt_client, amqp_client, http_client
+import mqtt_client
+import amqp_client
+import http_client
 import json
 import logging
 
