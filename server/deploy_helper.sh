@@ -112,6 +112,7 @@ fi
 if [ "$elasticsearch" = true ]; then
     log "INFO" "deploying elasticsearch..."
     helm repo add elastic https://Helm.elastic.co
+    helm repo update
     helm install elasticsearch elastic/elasticsearch --namespace $DEV_NS \
         --version 7.17.1 \
         --set replicas=1 \
@@ -120,6 +121,8 @@ if [ "$elasticsearch" = true ]; then
 fi
 if [ "$logstash" = true ]; then
     log "INFO" "deploying logstash using notelab.yml file..."
+    helm repo add elastic https://Helm.elastic.co
+    helm repo update
     helm install logstash-notelab elastic/logstash --namespace $DEV_NS \
         --version 7.17.1 \
         --set replicas=1 \
