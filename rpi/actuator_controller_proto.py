@@ -23,10 +23,10 @@ def on_amqp_message(channel, method, properties, msg):
         mqttc.publish(actuator2_topic_mosquitto, payload_rabbit)
 
 
-url_elastic = "http://SERVER_IP:9200"
+url_elastic = "http://SERVER_IP:32200"
 index_elastic = "control_actuator_index"
 ip_rabbit = "SERVER_IP"
-port_rabbit = 5672
+port_rabbit = 30672
 user_rabbit = "user"
 pass_rabbit = "password"
 exchange_rabbit = "amq.topic"

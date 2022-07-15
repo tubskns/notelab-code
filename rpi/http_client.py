@@ -35,7 +35,7 @@ if __name__ == "__main__":
         format="%(asctime)s | %(name)s | %(levelname)s | %(message)s",
         level=logging.DEBUG,
     )
-    root_url = "http://SERVER_IP:9200"
+    root_url = "http://SERVER_IP:32200"
     index_es = "testindex"
     query(
         url=root_url + index_es + "/test_sensor/1",
