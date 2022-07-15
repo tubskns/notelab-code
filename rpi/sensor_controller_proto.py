@@ -7,8 +7,8 @@ port_rabbit = 5672
 user_rabbit = "user"
 pass_rabbit = "password"
 exchange_rabbit = "amq.topic"
-r_key_rabbit = "collect_sensor_key"
-queue_rabbit = "collect_sensor_queue"
+r_key_rabbit = "control_sensor_key"
+queue_rabbit = "control_sensor_queue"
 # mosquitto
 ip_mosquitto = "MQTT_BROKER_IP"
 topic_mosquitto = "test_topic"
@@ -29,9 +29,9 @@ while True:
         # retrieve topic and payload
         topic = mqtt_client.message
         payload = str(mqtt_client.message.payload.decode("utf-8"))
-        print("sensor-collector - MQTT subscriber - Message received: " + payload)
+        print("sensor-controller - MQTT subscriber - Message received: " + payload)
         # forward payload to amqp server
-        print("sensor-collector - AMQP publisher - Forwarding data from Mosquitto to Rabbitmq: " + payload)
+        print("sensor-controller - AMQP publisher - Forwarding data from Mosquitto to Rabbitmq: " + payload)
         amqp_ch.basic_publish(exchange_rabbit, r_key_rabbit, payload)
         # reset message
         mqtt_client.message = None

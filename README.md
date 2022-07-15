@@ -1,7 +1,6 @@
 # Notelab: Network of Things Engineering Lab
 
 
-
 ## Arduino Uno
 
 ### Requirements
@@ -18,7 +17,7 @@
 - LiquidCrystal_I2C lib v1.1.2 ([source](https://github.com/johnrickman/LiquidCrystal_I2C))
 - WiFiNINA lib v1.8.13 ([source](https://github.com/arduino-libraries/WiFiNINA))
 - MQTT lib v2.5.0 ([source](https://github.com/256dpi/arduino-mqtt))
-- JSON lib v0.1.0.0 ([source](https://github.com/arduino-libraries/Arduino_JSON))
+- JSON lib v6.19.4 ([source](https://github.com/bblanchon/ArduinoJson))
 
 
 
@@ -29,12 +28,12 @@
 - Raspberry Pi 4 ([datasheet](https://datasheets.raspberrypi.com/rpi4/raspberry-pi-4-product-brief.pdf))
 - Ubuntu server 20.04 ARM ([installation](https://ubuntu.com/tutorials/how-to-install-ubuntu-on-your-raspberry-pi))
 - Python v3.9 ([installation](https://www.python.org/downloads/))
-- `pip` v20.3.4 ([installation](https://packaging.python.org/en/latest/tutorials/installing-packages/))
+- pip v20.3.4 ([installation](https://packaging.python.org/en/latest/tutorials/installing-packages/))
 
 ### Libraries
-- `paho` v1.6.1 ([installation](https://www.eclipse.org/paho/index.php?page=clients/python/index.php))
-- `pika` v1.2.1 ([installation](https://pika.readthedocs.io/en/stable/))
-- `requests` v2.25.1 ([installation](https://docs.python-requests.org/en/latest/user/install/))
+- paho v1.6.1 ([installation](https://www.eclipse.org/paho/index.php?page=clients/python/index.php))
+- pika v1.2.1 ([installation](https://pika.readthedocs.io/en/stable/))
+- requests v2.25.1 ([installation](https://docs.python-requests.org/en/latest/user/install/))
 
 ### Tools
 - Docker v20.10.8 ([installation](https://docs.docker.com/engine/install/ubuntu/))
@@ -47,12 +46,12 @@
 
 ### Requirements
 - Ubuntu server 20.04 ([installation](https://ubuntu.com/tutorials/install-ubuntu-server))
-- `git` v2.34.1 ([installation](https://git-scm.com/download/linux))
-- `helm` v1.20.9 ([installation](https://helm.sh/docs/intro/install/#from-script))
+- git v2.34.1 ([installation](https://git-scm.com/download/linux))
+- helm v1.20.9 ([installation](https://helm.sh/docs/intro/install/#from-script))
 
 ### Tools
 
-- `k3s` v1.20.9+k3s1 ([installation](https://rancher.com/docs/k3s/latest/en/installation/install-options/))
+- K3s v1.20.9+k3s1 ([installation](https://rancher.com/docs/k3s/latest/en/installation/install-options/))
 - RabbitMQ v3.9.14 ([homepage](https://www.rabbitmq.com/)), helm chart v.8.31.2 ([source](https://github.com/bitnami/charts/tree/master/bitnami/rabbitmq))
 - Logstash v7.17 ([homepage](https://www.elastic.co/logstash/)), helm chart v7.17 ([source](https://github.com/elastic/helm-charts/tree/7.17/logstash))
 - Elasticsearch v7.17 ([homepage](https://www.elastic.co/elasticsearch/)), helm chart v7.17 ([source](https://github.com/elastic/helm-charts/tree/7.17/elasticsearch))
@@ -64,11 +63,11 @@
 
 ### Requirements
 - Ubuntu desktop 20.04 ([installation](https://ubuntu.com/tutorials/install-ubuntu-desktop))
-- `git` v2.34.1 ([installation](https://git-scm.com/download/linux))
-- Arduino IDE ([tutorial](https://www.arduino.cc/en/Guide/Linux))
+- git v2.34.1 ([installation](https://git-scm.com/download/linux))
+- Arduino IDE v1.8.13 ([tutorial](https://www.arduino.cc/en/Guide/Linux))
 
 ### Tools
 
-- `curl` v7.81.0 ([installation](https://curl.se/download.html))
-- `mosquitto-clients` v.2.0.10 ([package](https://packages.ubuntu.com/focal/mosquitto-clients))
-- `amqp-tools` v.0.10.0-1 ([package](https://packages.ubuntu.com/focal/amqp-tools))
+- curl v7.81.0 ([installation](https://curl.se/download.html))
+- mosquitto-clients v.2.0.10 ([package](https://packages.ubuntu.com/focal/mosquitto-clients))
+- amqp-tools v.0.10.0-1 ([package](https://packages.ubuntu.com/focal/amqp-tools))
