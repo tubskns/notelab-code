@@ -11,8 +11,8 @@ def connect_to_broker(ip, port, user, passw):
     return channel
 
 
-def create_queue(channel, exchange, routing_key, queue):
-    channel.queue_declare(queue=queue, durable=True)
+def create_queue(channel, exchange, routing_key, queue, durable=False):
+    channel.queue_declare(queue=queue, durable=durable)
     channel.queue_bind(exchange=exchange, queue=queue, routing_key=routing_key)
     logging.debug("AMQP - Queue declare and bind: " + queue)
 

@@ -11,7 +11,7 @@ logstashPipeline:
       user => "user"
       password => "password"
       exchange => "amq.topic"
-      durable => true
+      durable => false
       queue => "temperature"
     }
   }
