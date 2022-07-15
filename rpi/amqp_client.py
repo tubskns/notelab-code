@@ -32,7 +32,7 @@ if __name__ == "__main__":
         level=logging.DEBUG,
     )
     ip = "SERVER_IP"
-    port = 5672
+    port = 30672
     user = "user"
     passw = "password"
     queue = "queue_test"

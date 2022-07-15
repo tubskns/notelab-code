@@ -3,7 +3,7 @@ import amqp_client
 
 # rabbit
 ip_rabbit = "SERVER_IP"
-port_rabbit = 5672
+port_rabbit = 30672
 user_rabbit = "user"
 pass_rabbit = "password"
 exchange_rabbit = "amq.topic"

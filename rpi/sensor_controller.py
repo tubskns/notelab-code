@@ -5,7 +5,7 @@ import logging
 
 
 ip_rabbit = "SERVER_IP"
-port_rabbit = 5672
+port_rabbit = 30672
 user_rabbit = "user"
 pass_rabbit = "password"
 ex_rabbit = "amq.topic"
