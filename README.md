@@ -52,9 +52,9 @@
 ### Tools
 
 - K3s v1.20.9+k3s1 ([installation](https://rancher.com/docs/k3s/latest/en/installation/install-options/))
-- RabbitMQ v3.9.14 ([homepage](https://www.rabbitmq.com/)), helm chart v.8.31.2 ([source](https://github.com/bitnami/charts/tree/master/bitnami/rabbitmq))
-- Logstash v7.17 ([homepage](https://www.elastic.co/logstash/)), helm chart v7.17 ([source](https://github.com/elastic/helm-charts/tree/7.17/logstash))
-- Elasticsearch v7.17 ([homepage](https://www.elastic.co/elasticsearch/)), helm chart v7.17 ([source](https://github.com/elastic/helm-charts/tree/7.17/elasticsearch))
+- RabbitMQ v3.10.5 ([homepage](https://www.rabbitmq.com/)), helm chart v.10.1.14 ([source](https://github.com/bitnami/charts/tree/master/bitnami/rabbitmq))
+- Logstash v7.17.3 ([homepage](https://www.elastic.co/logstash/)), helm chart v7.17.3 ([source](https://github.com/elastic/helm-charts/tree/7.17/logstash))
+- Elasticsearch v7.17.3 ([homepage](https://www.elastic.co/elasticsearch/)), helm chart v7.17.3 ([source](https://github.com/elastic/helm-charts/tree/7.17/elasticsearch))
 
 
 
