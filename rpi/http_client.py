@@ -35,17 +35,17 @@ if __name__ == "__main__":
         format="%(asctime)s | %(name)s | %(levelname)s | %(message)s",
         level=logging.DEBUG,
     )
-    root_url = "http://SERVER_IP:32200"
+    root_url = "http://134.169.115.91:32200/"
     index_es = "testindex"
     query(
         url=root_url + index_es + "/test_sensor/1",
         method="POST",
-        payload={"tester": "worksation", "sensor_data": 23},
+        payload={"tester": "workstation", "sensor_data": 23},
     )
     query(
         url=root_url + index_es + "/test_sensor/1",
         method="PUT",
-        payload={"tester": "worksation", "sensor_data": 15},
+        payload={"tester": "workstation", "sensor_data": 15},
     )
     time.sleep(1)
     query(url=root_url + index_es + "/" + "_search", method="GET")
