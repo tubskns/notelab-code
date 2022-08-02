@@ -32,7 +32,7 @@ pass_rabbit = "password"
 exchange_rabbit = "amq.topic"
 r_key_rabbit = "control_actuator_key"
 queue_rabbit = "control_actuator_queue"
-ip_mosquitto = "MQTT_BROKER_IP"
+ip_mosquitto = "RPi_IP"
 actuator1_topic_mosquitto = "actuator_topic_1"
 actuator2_topic_mosquitto = "actuator_topic_2"
 

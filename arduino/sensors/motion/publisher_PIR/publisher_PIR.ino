@@ -6,7 +6,7 @@
 char *ssid_wifi = "netw0";     // student's network SSID
 char *pass_wifi = "password1"; // student's network password
 
-const char *mqtt_broker_ip = "192.168.1.3";
+const char *mqtt_broker_ip = "RPi_IP";
 const int mqtt_broker_port = 1883;
 const char *client_id = "publisher_PIR";
 const char *publish_topic = "motion_topic";

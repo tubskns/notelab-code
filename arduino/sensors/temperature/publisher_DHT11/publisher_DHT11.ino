@@ -6,7 +6,7 @@
 char *ssid_wifi = "netw0";     
 char *pass_wifi = "password1";
 
-const char *mqtt_broker_ip = "MQTT_BROKER_IP";
+const char *mqtt_broker_ip = "RPi_IP";
 const int mqtt_broker_port = 1883;
 const char *client_id = "publisher_DHT11";
 const char *publish_topic = "temperature_topic";

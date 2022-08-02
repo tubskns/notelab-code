@@ -48,7 +48,7 @@ if __name__ == "__main__":
         format="%(asctime)s | %(name)s | %(levelname)s | %(message)s",
         level=logging.DEBUG,
     )
-    mqtt_broker_ip = "MQTT_BROKER_IP"
+    mqtt_broker_ip = "RPi_IP"
     mqtt_broker_port = 1883
     mqtt_topic = "testMQTT"
     mqttc = connect(mqtt_broker_ip, mqtt_broker_port)

@@ -47,7 +47,7 @@ dist_queue_rabbit = "dist_rabbit"
 motion_r_key_rabbit = "motion_rabbit"
 motion_queue_rabbit = "motion_rabbit"
 
-ip_mosquitto = "MQTT_BROKER_IP"
+ip_mosquitto = "RPi_IP"
 motion_led_topic = "motion_led_topic"
 temp_led_topic = "temp_led_topic"
 dist_led_topic = "dist_led_topic"

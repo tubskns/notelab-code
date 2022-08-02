@@ -10,7 +10,7 @@ exchange_rabbit = "amq.topic"
 r_key_rabbit = "control_sensor_key"
 queue_rabbit = "control_sensor_queue"
 # mosquitto
-ip_mosquitto = "MQTT_BROKER_IP"
+ip_mosquitto = "RPi_IP"
 topic_mosquitto = "test_topic"
 
 # connect to rabbitmq
