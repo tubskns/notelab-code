@@ -120,13 +120,13 @@ if [ "$elasticsearch" = true ]; then
     log "INFO" "done"
 fi
 if [ "$logstash" = true ]; then
-    log "INFO" "deploying logstash using notelab.yml file..."
+    log "INFO" "deploying logstash using logstash_conf.yml file..."
     helm repo add elastic https://Helm.elastic.co
     helm repo update
     helm install logstash-notelab elastic/logstash --namespace $DEV_NS \
         --version 7.17.1 \
         --set replicas=1 \
-        -f notelab.yml 
+        -f logstash_conf.yml 
     log "INFO" "done"
 fi
 

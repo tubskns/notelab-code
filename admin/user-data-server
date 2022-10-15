@@ -1,0 +1,57 @@
+#cloud-config
+autoinstall:
+  version: 1
+  identity:
+    hostname: server
+    username: ubuntu
+    password: "$6$26.4lP.pf$dzBvQNPLLS6gIWQQhR4k9nLVdboX7P8cTZlZriOM6LE6C.x.7Ip59Mlmn2JZ8/O3KT1aVlCaM1iwW0nzQo1881"
+  ssh:
+    allow-pw: true
+    authorized-keys: []
+    install-server: true
+  storage:
+    config:
+    - type: disk
+      id: disk0
+      # path: /dev/nvme0n1
+      ptable: gpt
+      wipe: superblock-recursive
+      preserve: false
+    - type: partition
+      id: efi-partition
+      number: 1
+      device: disk0
+      size: 1G
+      flag: boot
+      grub_device: true
+      wipe: superblock
+      preserve: false
+    - type: partition
+      id: root-partition
+      number: 2
+      device: disk0
+      size: -1
+      wipe: superblock
+      preserve: false
+    - type: format
+      volume: efi-partition
+      preserve: false
+      fstype: fat32
+      id: efi-format
+    - type: format
+      volume: root-partition
+      preserve: false
+      fstype: ext4
+      id: root-format
+    - type: mount
+      path: /boot/efi
+      device: efi-format
+      id: efi-mount
+    - type: mount
+      path: /
+      device: root-format
+      id: root-mount
+  user-data: # Cloud-init starts here after reboot
+    packages:
+      - curl
+      - jq
