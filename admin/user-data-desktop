@@ -4,7 +4,7 @@ autoinstall:
   identity:
     hostname: workstation
     username: ubuntu
-    password: "$6$26.4lP.pf$dzBvQNPLLS6gIWQQhR4k9nLVdboX7P8cTZlZriOM6LE6C.x.7Ip59Mlmn2JZ8/O3KT1aVlCaM1i>"
+    password: "$6$26.4lP.pf$dzBvQNPLLS6gIWQQhR4k9nLVdboX7P8cTZlZriOM6LE6C.x.7Ip59Mlmn2JZ8/O3KT1aVlCaM1iwW0nzQo1881"
   storage:
     config:
     - type: disk
@@ -48,6 +48,7 @@ autoinstall:
       device: root-format
       id: root-mount
   user-data: # Cloud-init starts here after reboot
+    disable_root: false
     packages:
       - ubuntu-desktop
       - firefox
@@ -56,5 +57,11 @@ autoinstall:
       - curl
       - docker.io
       - python3-pip
-    runcmd:
+      - git
+    runcmd: 
+      - pip install paho-mqtt pika requests
+      - wget -O arduino-linux.tar https://downloads.arduino.cc/arduino-1.8.19-linux64.tar.xz && tar xvf arduino-linux.tar
+      - cd arduino-1.8.19 && sudo sh install.sh
+      - sh arduino-linux-setup.sh $USER
+      - sudo usermod -a -G dialout $USER
       - reboot
