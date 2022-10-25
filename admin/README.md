@@ -2,11 +2,16 @@
 
 ### VMs using Vagrant
 
-1. Edit `vms_param.rb` accordingly
-2. Run `vagrant up` to deploy VMs
-3. Run `vagrant ssh worker1` or `workerX` to access to each specific VM.
-4. `vagrant halt` to shutdown all VMs
-5. `vagrant destroy` to delete all VMs
+If required, edit `vms_param.rb` accordingly.
+
+Vagrant cheat sheet:
+
+- `vagrant up` -- starts vagrant environment.
+- `vagrant ssh <boxname>` -- connects to machine via SSH.
+- `vagrant suspend` -- suspends a virtual machine.
+- `vagrant resume` -- resumes a suspended machine. 
+- `vagrant halt` -- stops the vagrant machine.
+- `vagrant destroy` -- deletes all traces of the vagrant machine.
 
 ### (Debugging) Auto-deployment of RabbitMQ + Logstash + Elasticsearch
 
