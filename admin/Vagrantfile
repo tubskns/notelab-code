@@ -15,18 +15,18 @@ Vagrant.configure("2") do |config|
     config.vm.define "worker#{i}" do |worker|
       worker.vm.box = $IMAGE
       worker.vm.hostname = "worker#{i}"
-      worker.vm.provider "libvirt" do |vb|
+      worker.vm.provider $PROVIDER do |vb|
         vb.memory = "#{$MEM}"
         vb.cpus = "#{$CPU}"
       end
       (0..$GUEST_PORTS.length()-1).each do |p|
-        config.vm.network :forwarded_port, guest: $GUEST_PORTS[p], host: $HOST_PORTS[p+(3*(i-1))] 
+        worker.vm.network :forwarded_port, guest: $GUEST_PORTS[p], host: $HOST_PORTS[p+(3*(i-1))] 
       end
       # files = ["logstash_conf.yml", "utils.sh", "deploy_helper.sh"]
       # files.each do |f|
-      #   config.vm.provision "file", source: f, destination: f
+      #   worker.vm.provision "file", source: f, destination: f
       # end
-      config.vm.provision "shell", inline: $script, privileged: false
+      worker.vm.provision "shell", inline: $script, privileged: false
     end
   end
 end

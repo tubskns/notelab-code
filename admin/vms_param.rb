@@ -1,5 +1,8 @@
 module Variables
     $IMAGE = "generic/ubuntu2004"
+    $PROVIDER = "libvirt"
+    # $IMAGE = "ubuntu/focal64"
+    # $PROVIDER = "virtualbox"
     $NUM_VMS = 4
     $MEM = "6144"
     $CPU = "3"

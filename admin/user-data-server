@@ -71,6 +71,7 @@ autoinstall:
       - libvirt-dev # libvirt deps
       - build-essential # libvirt deps
       - vagrant
+      # - virtualbox
     runcmd: 
       - sudo usermod -aG libvirt $USER 
       - sudo usermod -aG libvirt-qemu $USER 
