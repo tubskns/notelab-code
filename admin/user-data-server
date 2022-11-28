@@ -1,10 +1,6 @@
 #cloud-config
 autoinstall:
   version: 1
-  identity:
-    hostname: server
-    username: ubuntu
-    password: "$6$26.4lP.pf$dzBvQNPLLS6gIWQQhR4k9nLVdboX7P8cTZlZriOM6LE6C.x.7Ip59Mlmn2JZ8/O3KT1aVlCaM1iwW0nzQo1881"
   ssh:
     allow-pw: true
     authorized-keys: []
@@ -52,6 +48,16 @@ autoinstall:
       device: root-format
       id: root-mount
   user-data: # Cloud-init starts here after reboot
+    hostname: server
+    users: 
+      - name: root
+        lock_passwd: false
+        hashed_passwd: "$6$j20CMzd6hsffcsbH$m7E/A6HAHrFZ5py8M91dFsTRIe88bd0TPf9yavDvHmOj045EqQtLrOYG4kbYd8V1YGISu5lI8mZgIzUMVfS8e/"
+      - name: ubuntu
+        groups: users
+        shell: /bin/bash
+        lock_passwd: false
+        passwd: "$6$26.4lP.pf$dzBvQNPLLS6gIWQQhR4k9nLVdboX7P8cTZlZriOM6LE6C.x.7Ip59Mlmn2JZ8/O3KT1aVlCaM1iwW0nzQo1881"
     packages:
       - curl
       - jq
@@ -73,9 +79,8 @@ autoinstall:
       - vagrant
       # - virtualbox
     runcmd: 
-      - sudo usermod -aG libvirt $USER 
-      - sudo usermod -aG libvirt-qemu $USER 
-      - newgrp libvirt 
+      - sudo usermod -aG libvirt ubuntu 
+      - sudo usermod -aG libvirt-qemu ubuntu 
       - curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
       - vagrant plugin install vagrant-libvirt
       - reboot
