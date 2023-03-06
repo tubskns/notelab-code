@@ -37,6 +37,17 @@ helm install rabbitmq bitnami/rabbitmq --version 10.1.14 \
     --set service.type=NodePort,service.nodePorts.amqp=30672,service.nodePorts.manager=31672
 ```
 
+### RabbitMQ install (alternative)
+
+```shell
+wget https://github.com/tubskns/notelab-code/releases/download/v1.0.0/rabbitmq-10.1.14.tgz
+helm install rabbitmq rabbitmq-10.1.14.tgz \
+    --set replicaCount=1 \
+    --set auth.username=user,auth.password=password \
+    --set service.type=NodePort,service.nodePorts.amqp=30672,service.nodePorts.manager=31672 \
+    --set image.registry=ghcr.io,image.repository=tubskns/rabbitmq
+```
+
 ### RabbitMQ test
 
 ```shell
@@ -60,10 +71,20 @@ helm install elasticsearch elastic/elasticsearch \
     --set service.type=NodePort,service.nodePort=32200
 ```
 
+### Elasticsearch install (alternative)
+
+```shell
+wget https://github.com/tubskns/notelab-code/releases/download/v1.0.0/elasticsearch-7.17.3.tgz
+helm install elasticsearch elasticsearch-7.17.3.tgz \
+    --set replicas=1 \
+    --set service.type=NodePort,service.nodePort=32200 \
+    --set image=ghcr.io/tubskns/elasticsearch
+```
+
 ### Elasticsearch test
 
 ```shell
-curl -H "Content-Type: application/json" -XPOST "http://SERVER_IP:32200/notelab/temperature_topic/1" -d ’{"id":"test", "temperature":22}’
+curl -H "Content-Type: application/json" -XPOST "http://SERVER_IP:32200/notelab/temperature_topic/1" -d '{"id":"test", "temperature":22}'
 ```
 
 ```shell
@@ -74,6 +95,7 @@ curl -XGET "http://SERVER_IP:32200/notelab/_search?pretty" -H 'Content-Type: app
 ### Logstash install
 
 ```shell
+wget https://raw.githubusercontent.com/tubskns/notelab-code/master/server/logstash_conf.yml
 helm repo add elastic https://Helm.elastic.co
 helm repo update
 helm install logstash-notelab elastic/logstash \
@@ -82,3 +104,13 @@ helm install logstash-notelab elastic/logstash \
     -f logstash_conf.yml 
 ```
 
+### Logstash install (alternative)
+
+```shell
+wget https://github.com/tubskns/notelab-code/releases/download/v1.0.0/logstash-7.17.3.tgz
+wget https://raw.githubusercontent.com/tubskns/notelab-code/master/server/logstash_conf.yml
+helm install logstash logstash-7.17.3.tgz \
+    --set replicas=1 \
+    -f logstash_conf.yml \
+    --set image=ghcr.io/tubskns/logstash
+```
