@@ -9,6 +9,8 @@ int _num_subscribe_topics;
 
 MqttClient::MqttClient(const char *mqtt_broker_ip, const int mqtt_broker_port)
 {
+  _mqtt_client.setKeepAlive(5);
+  _mqtt_client.setTimeout(2000);
   _mqtt_client.begin(mqtt_broker_ip, _wifi_client);
 }
 
