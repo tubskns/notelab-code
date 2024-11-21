@@ -13,7 +13,8 @@ class MqttClient
     String get_topic();
     void reset_msg();
   private:
-    MQTTClient _mqtt_client;
+    MQTTClient _mqtt_client{_newBufferSize};
     String *_subscribe_topics;
     int _num_subscribe_topics;
+    static constexpr int _newBufferSize = 1024;
 };
