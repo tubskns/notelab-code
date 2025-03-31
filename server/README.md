@@ -17,7 +17,7 @@ kubectl get pods -A
 To fix `k3s` permissions, run the following command (or add it to your `.bashrc` or `.zshrc`):
 
 ```shell
-sudo cp /etc/rancher/k3s/k3s.yaml ~/.kube/k3s-config && sudo chown $USER: ~/.kube/k3s-config && export KUBECONFIG=~/.kube/k3s-config
+mkdir -p ~/.kube && sudo cp /etc/rancher/k3s/k3s.yaml ~/.kube/k3s-config && sudo chown $USER: ~/.kube/k3s-config && export KUBECONFIG=~/.kube/k3s-config
 ```
 
 ### k3s uninstall
