@@ -4,6 +4,20 @@
 require_relative 'vms_param.rb'
 include Variables
 
+# Script de correção do DNS prioritário (TU Braunschweig)
+$dns_script = <<-'DNS_SCRIPT'
+echo "=== Fix DNS in the VMs ==="
+sudo rm -f /etc/resolv.conf
+echo -e "nameserver 134.169.9.150\nnameserver 134.169.9.151\nnameserver 134.169.9.152\nnameserver 1.1.1.1\nsearch ida.ing.tu-bs.de" | sudo tee /etc/resolv.conf
+
+if [ -f /etc/systemd/resolved.conf ]; then
+  sudo sed -i 's/#DNS=/DNS=134.169.9.150 134.169.9.151 134.169.9.152 1.1.1.1/' /etc/systemd/resolved.conf
+  sudo sed -i 's/#Domains=/Domains=ida.ing.tu-bs.de/' /etc/systemd/resolved.conf
+  sudo systemctl restart systemd-resolved
+fi
+echo "=== DNS Configured ==="
+DNS_SCRIPT
+
 $script = <<-'SCRIPT'
 sudo apt-get update && sudo apt-get install curl jq -y
 curl -sSLf https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3 | bash
@@ -19,9 +33,17 @@ Vagrant.configure("2") do |config|
         vb.memory = "#{$MEM}"
         vb.cpus = "#{$CPU}"
       end
+      
+      worker.vm.network "private_network",
+        type: "dhcp",
+        libvirt__dhcp_dns: ["134.169.9.150", "134.169.9.151", "8.8.8.8"],
+        libvirt__dhcp_search_domain: "ida.ing.tu-bs.de"
+      
       (0..$GUEST_PORTS.length()-1).each do |p|
         worker.vm.network :forwarded_port, guest: $GUEST_PORTS[p], host: $HOST_PORTS[p+(3*(i-1))] 
       end
+
+      worker.vm.provision "dns_fix", type: "shell", inline: $dns_script, privileged: true
       # files = ["logstash_conf.yml", "utils.sh", "deploy_helper.sh"]
       # files.each do |f|
       #   worker.vm.provision "file", source: f, destination: f
@@ -30,4 +52,3 @@ Vagrant.configure("2") do |config|
     end
   end
 end
-  
