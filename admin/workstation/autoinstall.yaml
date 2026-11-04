@@ -1,0 +1,90 @@
+#cloud-config
+# See the autoinstall documentation at:
+# https://canonical-subiquity.readthedocs-hosted.com/en/latest/reference/autoinstall-reference.html
+autoinstall:
+  version: 1
+  updates: security
+  timezone: Europe/Berlin
+  identity:
+    hostname: workstation
+    realname: Ubuntu
+    username: ubuntu
+    password: $6$BAUN43rkJZdYqMFK$n6O7F.vUPDvfiSEhE.9yWy.70Cdrh.xxIk8zphywAEWzYEZeRxzW3WQEqYeT7yINA5MUvXYFVVSrPBJzs6mak.
+  keyboard:
+    layout: us
+    toggle: null
+    variant: '' 
+  apt:
+    disable_components: []
+    preserve_sources_list: false
+    mirror-selection:
+      primary:
+        - uri: https://ftp.rz.tu-bs.de/pub/mirror/ubuntu-packages/
+          arches: [i386, amd64]
+        - country-mirror
+    geoip: true
+    fallback: offline-install
+    security:
+    - uri: http://security.ubuntu.com/ubuntu/
+      arches: [i386, amd64]
+  codecs:
+    install: false
+  drivers:
+    install: false
+  source:
+    id: ubuntu-desktop-minimal
+    search_drivers: false
+  storage:
+    layout:
+      name: direct
+      ptable: gpt
+      match:
+        ssd: true
+        size: largest
+      reset-partition: false
+  network:
+    version: 2
+    ethernets:
+      all-eth:
+        match:
+          name: "*"
+        dhcp4: true
+  packages:
+    - firefox
+    - amqp-tools
+    - mosquitto-clients
+    - curl
+    - docker.io
+    - git
+    - python3-pip
+    - python3-paho-mqtt
+    - python3-pika
+    - python3-requests
+  user-data:
+    # These directives also affect the target system to be installed,
+    # and are processed on first boot.
+    disable_root: false
+    runcmd:
+      - apt-get install -y wget
+      - wget -c -O /home/ubuntu/arduino-linux.tar https://downloads.arduino.cc/arduino-1.8.19-linux64.tar.xz
+      - tar xvf /home/ubuntu/arduino-linux.tar -C /home/ubuntu
+      - sudo sh /home/ubuntu/arduino-1.8.19/install.sh
+      - sh /home/ubuntu/arduino-1.8.19/arduino-linux-setup.sh ubuntu
+      - rm -f /home/ubuntu/arduino-linux.tar
+      # Install arduino-cli for all usres and add libraries
+      - 'curl -fsSL https://raw.githubusercontent.com/arduino/arduino-cli/master/install.sh | BINDIR=/usr/local/bin sh'
+      - chmod 755 /usr/local/bin/arduino-cli
+      - export PATH="/usr/local/bin:$PATH"
+      - sudo -u ubuntu -H arduino-cli config init --overwrite
+      - sudo -u ubuntu -H arduino-cli config set library.enable_unsafe_install true
+      - sudo -u ubuntu -H arduino-cli lib update-index
+      - sudo -u ubuntu -H arduino-cli lib install --git-url https://github.com/johnrickman/LiquidCrystal_I2C.git
+      - sudo -u ubuntu -H arduino-cli lib install --git-url https://github.com/arduino-libraries/WiFiNINA.git
+      - sudo -u ubuntu -H arduino-cli lib install --git-url https://github.com/256dpi/arduino-mqtt.git
+      - sudo -u ubuntu -H arduino-cli lib install --git-url https://github.com/bblanchon/ArduinoJson.git
+      - sudo -u ubuntu -H arduino-cli lib install --git-url https://github.com/adafruit/DHT-sensor-library.git
+      - sudo -u ubuntu -H arduino-cli lib install "Adafruit Unified Sensor"
+      # Verify installed libraries (output goes to the cloud-init log)
+      - sudo -u ubuntu -H arduino-cli lib list
+      - sudo usermod -a -G adm,tty,dialout,plugdev,lpadmin ubuntu
+      - reboot
