@@ -1,5 +1,5 @@
 module Variables
-    $IMAGE = "generic/ubuntu2004"
+    $IMAGE = "bento/ubuntu-24.04"
     $PROVIDER = "libvirt"
     # $IMAGE = "ubuntu/focal64"
     # $PROVIDER = "virtualbox"
